@@ -212,6 +212,12 @@ install(TARGETS ${PROJECT_NAME}
 
 add_dependencies(${PROJECT_NAME} cxbxr-ldr misc-batch)
 
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+  "${CXBXR_ROOT_DIR}/src/core/hle/D3D8/Direct3D9"
+  "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/hlsl"
+)
+
 # Try to stop cmake from building hlsl files
 # Which are all currently loaded at runtime only
 set_source_files_properties(

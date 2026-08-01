@@ -818,7 +818,7 @@ std::ifstream OpenWithRetry(const std::string& path) {
 
 		if (failures++ > 10) {
 			// crash?
-			CxbxrAbort("Error opening shader file: %s", path);
+			CxbxrAbort("Error opening shader file: %s", path.c_str());
 			break;
 		}
 	}
