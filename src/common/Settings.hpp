@@ -28,8 +28,8 @@
 #define SETTINGS_HPP
 
 #include "SimpleIni.h"
-#include "common\input\InputManager.h"
-#include "common\util\CxbxUtil.h"
+#include "common/input/InputManager.h"
+#include "common/util/CxbxUtil.h"
 #include <string>
 #include <array>
 

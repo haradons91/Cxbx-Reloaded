@@ -27,7 +27,7 @@
 // Used by CxbxKrnl to setup JVS roms
 void JVS_Init();
 
-#include "core\hle\XAPI\Xapi.h" // For EMUPATCH
+#include "core/hle/XAPI/Xapi.h" // For EMUPATCH
 
 namespace xbox {
 

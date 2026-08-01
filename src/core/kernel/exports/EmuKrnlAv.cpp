@@ -29,23 +29,23 @@
 #define LOG_PREFIX CXBXR_MODULE::AV
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For AvGetSavedDataAddress, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For AvGetSavedDataAddress, etc.
 #include "EmuKrnlLogging.h"
 
 // prevent name collisions
 namespace NtDll
 {
-#include "core\kernel\support\EmuNtDll.h"
+#include "core/kernel/support/EmuNtDll.h"
 };
 
-#include "core\kernel\support\Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
-#include "core\hle\D3D8\Direct3D9\Direct3D9.h"
-#include "devices\x86\EmuX86.h"
+#include "core/kernel/support/Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
+#include "core/hle/D3D8/Direct3D9/Direct3D9.h"
+#include "devices/x86/EmuX86.h"
 
 #include "EmuKrnlAvModes.h"
-#include "devices\Xbox.h" // For g_NV2A
-#include "devices\video\nv2a_int.h"
-#include "devices\video\nv2a.h" // For NV2ABlockInfo, EmuNV2A_Block()
+#include "devices/Xbox.h" // For g_NV2A
+#include "devices/video/nv2a_int.h"
+#include "devices/video/nv2a.h" // For NV2ABlockInfo, EmuNV2A_Block()
 
 
 // HW Register helper functions

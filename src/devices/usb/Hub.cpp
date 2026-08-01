@@ -56,11 +56,11 @@
 #define LOG_PREFIX CXBXR_MODULE::HUB
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For PKINTERRUPT, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For PKINTERRUPT, etc.
 #include <cstring> // For memcpy
 #include "OHCI.h"
 #include "Hub.h"
-#include "core\kernel\exports\EmuKrnl.h"  // For EmuLog
+#include "core/kernel/exports/EmuKrnl.h"  // For EmuLog
 #include "Logging.h"
 
 #define NUM_PORTS 8

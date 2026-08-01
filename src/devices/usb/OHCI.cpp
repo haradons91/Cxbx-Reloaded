@@ -52,10 +52,10 @@
 #define LOG_PREFIX CXBXR_MODULE::OHCI
 
 
-#include <core\kernel\exports\xboxkrnl.h>
+#include <core/kernel/exports/xboxkrnl.h>
 #include "OHCI.h"
-#include "core\kernel\exports\EmuKrnl.h"  // For HalSystemInterrupt
-#include "common\util\CxbxUtil.h"
+#include "core/kernel/exports/EmuKrnl.h"  // For HalSystemInterrupt
+#include "common/util/CxbxUtil.h"
 #include "Logging.h"
 
 static const char* OHCI_RegNames[] = {

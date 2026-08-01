@@ -29,8 +29,8 @@
 
 #include "Windows.h"
 #include "gui/resource/ResCxbx.h"
-#include "input\InputWindow.h"
-#include "gui\DlgInputConfig.h"
+#include "input/InputWindow.h"
+#include "gui/DlgInputConfig.h"
 #include "common/Logging.h"
 
 

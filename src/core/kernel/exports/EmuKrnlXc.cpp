@@ -31,18 +31,18 @@
 #define LOG_PREFIX CXBXR_MODULE::XC
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For XcSHAInit, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For XcSHAInit, etc.
 #include "Logging.h" // For LOG_FUNC()
 #include "EmuKrnlLogging.h"
-#include "common\crypto\EmuSha.h" // For A_SHAInit, etc.
-#include "common\crypto\LibRc4.h" // For RC4 Functions
-#include "common\crypto\EmuDes.h" // For DES Functions
-#include "common\crypto\EmuRSA.h" // For RSA Functions
+#include "common/crypto/EmuSha.h" // For A_SHAInit, etc.
+#include "common/crypto/LibRc4.h" // For RC4 Functions
+#include "common/crypto/EmuDes.h" // For DES Functions
+#include "common/crypto/EmuRsa.h" // For RSA Functions
 
 // prevent name collisions
 namespace NtDll
 {
-	#include "core\kernel\support\EmuNtDll.h"
+	#include "core/kernel/support/EmuNtDll.h"
 };
 
 

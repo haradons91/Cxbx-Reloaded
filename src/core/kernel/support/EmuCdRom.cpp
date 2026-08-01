@@ -23,7 +23,7 @@
 
 #define LOG_PREFIX CXBXR_MODULE::FILE
 
-#include <core\kernel\exports\xboxkrnl.h>
+#include <core/kernel/exports/xboxkrnl.h>
 #include "EmuCdRom.hpp"
 #include "EmuShared.h"
 #include "EmuFile.h"

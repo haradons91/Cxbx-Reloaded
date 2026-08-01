@@ -29,22 +29,22 @@
 
 //#define _DEBUG_TRACK_VS
 
-#include "common\util\hasher.h" // For ComputeHash
-#include "core\kernel\init\CxbxKrnl.h"
-#include "core\kernel\support\Emu.h"
-#include "core\hle\D3D8\Direct3D9\Direct3D9.h" // For g_Xbox_VertexShader_Handle
-#include "core\hle\D3D8\Direct3D9\RenderStates.h" // For XboxRenderStateConverter
-#include "core\hle\D3D8\Direct3D9\VertexShaderCache.h" // For g_VertexShaderCache
-#include "core\hle\D3D8\Direct3D9\Shader.h" // For g_ShaderSources
-#include "core\hle\D3D8\XbVertexBuffer.h" // For CxbxImpl_SetVertexData4f
-#include "core\hle\D3D8\XbVertexShader.h"
+#include "common/util/hasher.h" // For ComputeHash
+#include "core/kernel/init/CxbxKrnl.h"
+#include "core/kernel/support/Emu.h"
+#include "core/hle/D3D8/Direct3D9/Direct3D9.h" // For g_Xbox_VertexShader_Handle
+#include "core/hle/D3D8/Direct3D9/RenderStates.h" // For XboxRenderStateConverter
+#include "core/hle/D3D8/Direct3D9/VertexShaderCache.h" // For g_VertexShaderCache
+#include "core/hle/D3D8/Direct3D9/Shader.h" // For g_ShaderSources
+#include "core/hle/D3D8/XbVertexBuffer.h" // For CxbxImpl_SetVertexData4f
+#include "core/hle/D3D8/XbVertexShader.h"
 #include "common/PerfTrace.h"
-#include "core\hle\D3D8\XbD3D8Logging.h" // For DEBUG_D3DRESULT
-#include "devices\xbox.h"
-#include "core\hle\D3D8\XbConvert.h" // For NV2A_VP_UPLOAD_INST, NV2A_VP_UPLOAD_CONST_ID, NV2A_VP_UPLOAD_CONST
-#include "devices\video\nv2a.h" // For D3DPUSH_DECODE
-#include "common\Logging.h" // For LOG_INIT
-#include "common\Settings.hpp" // for g_LibVersion_D3D8
+#include "core/hle/D3D8/XbD3D8Logging.h" // For DEBUG_D3DRESULT
+#include "devices/Xbox.h"
+#include "core/hle/D3D8/XbConvert.h" // For NV2A_VP_UPLOAD_INST, NV2A_VP_UPLOAD_CONST_ID, NV2A_VP_UPLOAD_CONST
+#include "devices/video/nv2a.h" // For D3DPUSH_DECODE
+#include "common/Logging.h" // For LOG_INIT
+#include "common/Settings.hpp" // for g_LibVersion_D3D8
 
 #include "XbD3D8Types.h" // For X_D3DVSDE_*
 #include <sstream>

@@ -28,8 +28,8 @@
 #define LOG_PREFIX CXBXR_MODULE::SMC
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For xbox.h:AV_PACK_HDTV
-#include "core\kernel\init\CxbxKrnl.h"
+#include <core/kernel/exports/xboxkrnl.h> // For xbox.h:AV_PACK_HDTV
+#include "core/kernel/init/CxbxKrnl.h"
 #include "EmuShared.h"
 
 #include "SMCDevice.h" // For SMCDevice

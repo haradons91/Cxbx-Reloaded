@@ -28,10 +28,10 @@
 #define LOG_PREFIX CXBXR_MODULE::KRNL
 
 
-#include <core\kernel\exports\xboxkrnl.h>
-#include <core\kernel\exports\EmuKrnlKi.h>
-#include "core\kernel\support\EmuFS.h"
-#include "core\kernel\support\NativeHandle.h"
+#include <core/kernel/exports/xboxkrnl.h>
+#include <core/kernel/exports/EmuKrnlKi.h>
+#include "core/kernel/support/EmuFS.h"
+#include "core/kernel/support/NativeHandle.h"
 #include <cstdio>
 #include <cctype>
 #include <clocale>
@@ -40,12 +40,12 @@
 #include "EmuKrnlLogging.h"
 #include "EmuKrnl.h" // for HalSystemInterrupts
 #include "EmuKrnlKi.h" // for KiLockDispatcherDatabase
-#include "core\kernel\init\CxbxKrnl.h"
+#include "core/kernel/init/CxbxKrnl.h"
 
 // prevent name collisions
 namespace NtDll
 {
-    #include "core\kernel\support\EmuNtDll.h"
+    #include "core/kernel/support/EmuNtDll.h"
 };
 
 // See also :

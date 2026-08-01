@@ -30,8 +30,8 @@
 #include <sstream> // std::stringstream
 #include "Shader.h" // EmuCompileShader
 #include "PixelShader.h" // EmuCompilePixelShader
-//#include "core\kernel\init\CxbxKrnl.h"
-//#include "core\kernel\support\Emu.h"
+//#include <core\kernel/init/CxbxKrnl.h>
+//#include <core\kernel/support/Emu.h>
 
 extern const char* g_ps_model = ps_model_3_0;
 

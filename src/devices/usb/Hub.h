@@ -28,7 +28,7 @@
 #ifndef HUB_H_
 #define HUB_H_
 
-#include "UsbDevice.h"
+#include "USBDevice.h"
 
 
 struct USBHubState; // forward declare

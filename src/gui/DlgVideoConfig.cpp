@@ -30,12 +30,12 @@
 // Without this, you'll get a ton of errors from the std library for some unknown reason...
 #include "Logging.h"
 
-#include "common\Settings.hpp" // for g_Settings
+#include "common/Settings.hpp" // for g_Settings
 
 #include "DlgVideoConfig.h"
 #include "resource/ResCxbx.h"
 
-#include "core\hle\D3D8\Direct3D9\Direct3D9.h" // For IDirect3D
+#include "core/hle/D3D8/Direct3D9/Direct3D9.h" // For IDirect3D
 
 /*! windows dialog procedure */
 static INT_PTR CALLBACK DlgVideoConfigProc(HWND hWndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);

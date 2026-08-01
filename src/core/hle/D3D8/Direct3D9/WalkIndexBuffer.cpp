@@ -5,7 +5,7 @@
 #include <smmintrin.h> // SSE4.1
 //#include <nmmintrin.h> // SSE4.2
 //#include <immintrin.h> // AVX
-#include "common\util\CPUID.h"
+#include "common/util/CPUID.h"
 #include "WalkIndexBuffer.h"
 
 // Walk an index buffer to find the minimum and maximum indices

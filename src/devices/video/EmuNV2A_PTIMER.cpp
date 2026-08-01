@@ -33,7 +33,7 @@
 // *
 // ******************************************************************
 
-#include "common\util\CxbxUtil.h"
+#include "common/util/CxbxUtil.h"
 
 
 /* PTIMER - time measurement and time-based alarms */

@@ -28,12 +28,12 @@
 #define LOG_PREFIX CXBXR_MODULE::XACT
 
 
-#include <core\kernel\exports\xboxkrnl.h>
-#include "core\kernel\init\CxbxKrnl.h"
-#include "common\Logging.h"
-#include "core\kernel\support\Emu.h"
+#include <core/kernel/exports/xboxkrnl.h>
+#include "core/kernel/init/CxbxKrnl.h"
+#include "common/Logging.h"
+#include "core/kernel/support/Emu.h"
 #include "EmuShared.h"
-#include "core\hle\XACTENG\XactEng.h"
+#include "core/hle/XACTENG/XactEng.h"
 
 #include <mmreg.h>
 #include <msacm.h>

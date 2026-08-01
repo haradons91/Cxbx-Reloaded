@@ -28,9 +28,9 @@
 #define LOG_PREFIX CXBXR_MODULE::GUI
 
 #include "Windows.h"
-#include "gui\resource\ResCxbx.h"
-#include "input\InputWindow.h"
-#include "common\input\LibusbDevice.h"
+#include "gui/resource/ResCxbx.h"
+#include "input/InputWindow.h"
+#include "common/input/LibusbDevice.h"
 #include <chrono>
 
 

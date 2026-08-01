@@ -28,10 +28,10 @@
 #define LOG_PREFIX CXBXR_MODULE::LOG
 
 
-#include <core\kernel\exports\xboxkrnl.h>
+#include <core/kernel/exports/xboxkrnl.h>
 #include "Logging.h"
 #include "EmuKrnlLogging.h"
-#include "core\kernel\init\CxbxKrnl.h"
+#include "core/kernel/init/CxbxKrnl.h"
 
 // prevent name collisions
 namespace xbox

@@ -28,7 +28,7 @@
 #pragma once
 
 #include "Button.h"
-#include "common\util\CxbxUtil.h"
+#include "common/util/CxbxUtil.h"
 #include <array>
 
 

@@ -53,14 +53,14 @@
 #define LOG_PREFIX CXBXR_MODULE::XIDCTRL
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For PKINTERRUPT, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For PKINTERRUPT, etc.
 #include <cstring>
 #include "XidGamepad.h"
 #include "USBDevice.h"
-#include "common\input\InputManager.h"
-#include "common\input\SdlJoystick.h"
+#include "common/input/InputManager.h"
+#include "common/input/SdlJoystick.h"
 #include "OHCI.h"
-#include "core\kernel\exports\EmuKrnl.h"
+#include "core/kernel/exports/EmuKrnl.h"
 #include "Logging.h"
 
 #define USB_CLASS_XID  0x58

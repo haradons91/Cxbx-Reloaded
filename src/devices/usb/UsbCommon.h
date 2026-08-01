@@ -55,8 +55,8 @@
 #ifndef USBCOMMON_H_
 #define USBCOMMON_H_
 
-#include "common\util\CxbxUtil.h"
-#include "..\devices\video\queue.h"
+#include "common/util/CxbxUtil.h"
+#include "../devices/video/queue.h"
 #include <functional>
 
 #define USB_MAX_ENDPOINTS  15

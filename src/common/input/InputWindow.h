@@ -28,7 +28,7 @@
 #pragma once
 
 #include "InputManager.h"
-#include "common\Settings.hpp"
+#include "common/Settings.hpp"
 #include <Commctrl.h>
 
 #define PROFILE_LOAD   1

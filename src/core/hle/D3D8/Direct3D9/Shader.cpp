@@ -31,8 +31,8 @@
 #include "Shader.h"
 #include "common/FilePaths.hpp" // For szFilePath_CxbxReloaded_Exe
 #include "common/PerfTrace.h"
-#include "core\kernel\init\CxbxKrnl.h" // LOG_TEST_CASE
-#include "core\kernel\support\Emu.h" // EmuLog
+#include "core/kernel/init/CxbxKrnl.h" // LOG_TEST_CASE
+#include "core/kernel/support/Emu.h" // EmuLog
 
 #include <filesystem>
 #include <fstream>
@@ -44,7 +44,7 @@
 #include <chrono>
 #include <unordered_map>
 #include <unordered_set>
-#include "common\util\hasher.h" // For ComputeHash
+#include "common/util/hasher.h" // For ComputeHash
 //#include <sstream>
 
 ShaderSources g_ShaderSources;

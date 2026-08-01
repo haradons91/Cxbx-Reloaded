@@ -30,7 +30,7 @@
 #define LOG_PREFIX CXBXR_MODULE::GUI
 
 #include "common/cxbxr.hpp" // for CxbxrExec
-#include "core\hle\D3D8\XbConvert.h"
+#include "core/hle/D3D8/XbConvert.h"
 #include "Logging.h"
 #include "WndMain.h"
 #include "DlgAbout.h"
@@ -41,10 +41,10 @@
 #include "DlgEepromConfig.h"
 #include "DlgLoggingConfig.h"
 #include "xiso/XisoMount.hpp"
-#include "common\xbe\XbePrinter.h" // For DumpInformation
+#include "common/xbe/XbePrinter.h" // For DumpInformation
 #include "EmuShared.h"
-#include "core\hle\D3D8\Direct3D9\Direct3D9.h" // For CxbxSetPixelContainerHeader
-#include "common\Settings.hpp"
+#include "core/hle/D3D8/Direct3D9/Direct3D9.h" // For CxbxSetPixelContainerHeader
+#include "common/Settings.hpp"
 #include "common/util/cliConfig.hpp"
 #include "common/win32/WineEnv.h"
 #include "common/xbe/XbePrinter.h" // for FormatTitleId
@@ -68,7 +68,7 @@
 #include <fstream>
 #include <iostream>
 #include <fcntl.h> // for _O_TEXT
-#include "common\util\hasher.h"
+#include "common/util/hasher.h"
 
 #define XBOX_LED_FLASH_PERIOD 176 // if you know a more accurate value, put it here
 

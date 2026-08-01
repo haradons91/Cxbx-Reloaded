@@ -28,8 +28,8 @@
 
 #define LOG_PREFIX CXBXR_MODULE::D3DCVT
 
-#include "common\Settings.hpp" // for g_LibVersion_D3D8
-#include "core\kernel\support\Emu.h"
+#include "common/Settings.hpp" // for g_LibVersion_D3D8
+#include "core/kernel/support/Emu.h"
 
 #include "XbConvert.h"
 

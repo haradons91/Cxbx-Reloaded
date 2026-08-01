@@ -27,7 +27,11 @@
 
 #include <cstdint>
 
+#ifdef _MSC_VER
 #define FUNC_EXPORTS __pragma(comment(linker, "/EXPORT:" __FUNCTION__ "=" __FUNCDNAME__))
+#else
+#define FUNC_EXPORTS
+#endif
 
 #ifdef _DEBUG
 /*! define this to track memory allocations */
@@ -78,7 +82,7 @@ extern bool g_SaveOnExit;
 extern volatile bool g_bPrintfOn;
 
 #if WIN32
-#include "Win32\Threads.h"
+#include "win32/Threads.h"
 #define CxbxSetThreadName(Name) SetCurrentThreadName(Name)
 #else
 #define CxbxSetThreadName(Name)

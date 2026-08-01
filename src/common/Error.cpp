@@ -25,7 +25,8 @@
 // *
 // ******************************************************************
 
-#include "common\Error.h"
+#include "common/Error.h"
+#include <cstring>
 
 const std::string Error::GetError()
 {

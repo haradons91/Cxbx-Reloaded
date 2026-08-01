@@ -23,7 +23,7 @@
 // *
 // ******************************************************************
 
-#include "common\Settings.hpp" // for g_LibVersion_DSOUND
+#include "common/Settings.hpp" // for g_LibVersion_DSOUND
 #include "XbInternalStruct.hpp"
 
 // Interface for get format

@@ -30,20 +30,20 @@
 #define LOG_PREFIX CXBXR_MODULE::MM
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For MmGlobalData, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For MmGlobalData, etc.
 #include "Logging.h" // For LOG_FUNC()
 #include "EmuKrnl.h" // For DefaultLaunchDataPage
 #include "EmuKrnlLogging.h"
-#include "core\kernel\init\CxbxKrnl.h" // For CxbxrAbort
-#include "core\kernel\support\Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
-#include "core\kernel\memory-manager\VMManager.h"
+#include "core/kernel/init/CxbxKrnl.h" // For CxbxrAbort
+#include "core/kernel/support/Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
+#include "core/kernel/memory-manager/VMManager.h"
 #include "EmuShared.h"
 #include <assert.h>
 
 // prevent name collisions
 namespace NtDll
 {
-	#include "core\kernel\support\EmuNtDll.h" // For NtAllocateVirtualMemory(), etc.
+	#include "core/kernel/support/EmuNtDll.h" // For NtAllocateVirtualMemory(), etc.
 };
 
 // ******************************************************************

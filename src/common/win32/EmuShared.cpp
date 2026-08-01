@@ -27,7 +27,7 @@
 
 #include "cxbxr.hpp"
 
-#include "core\kernel\support\Emu.h"
+#include "core/kernel/support/Emu.h"
 #include "EmuShared.h"
 
 #include <windows.h>
@@ -114,8 +114,9 @@ bool EmuShared::Init(long long sessionID)
     // ******************************************************************
     // * Executed only on first initialization of shared memory
     // ******************************************************************
+#include <new>
     if (bRequireConstruction) {
-        g_EmuShared->EmuShared::EmuShared();
+        new (g_EmuShared) EmuShared();
     }
 
     g_EmuShared->m_RefCount++;

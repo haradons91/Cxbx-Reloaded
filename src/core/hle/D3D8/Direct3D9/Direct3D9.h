@@ -25,14 +25,14 @@
 #ifndef DIRECT3D9_H
 #define DIRECT3D9_H
 
-#include "core\hle\XAPI\Xapi.h" // For EMUPATCH
+#include "core/hle/XAPI/Xapi.h" // For EMUPATCH
 
 // NOTE: this is necessary or else d3dx9mesh.h fails to compile because of undefined VOID macros
 #ifndef VOID
 #define VOID void
 #endif
 
-#include "core\hle\D3D8\XbD3D8Types.h"
+#include "core/hle/D3D8/XbD3D8Types.h"
 
 #define DIRECTDRAW_VERSION 0x0700
 #include <ddraw.h>

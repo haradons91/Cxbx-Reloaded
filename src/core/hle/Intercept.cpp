@@ -36,15 +36,15 @@
 #include <iomanip> // For std::setfill and std::setw
 #include <filesystem>
 
-#include "core\kernel\init\CxbxKrnl.h"
-#include "core\kernel\support\Emu.h"
+#include "core/kernel/init/CxbxKrnl.h"
+#include "core/kernel/support/Emu.h"
 #include "EmuShared.h"
-#include "common\CxbxDebugger.h"
+#include "common/CxbxDebugger.h"
 #include "Logging.h"
 #include <libXbSymbolDatabase.h>
 #include "Intercept.hpp"
 #include "Patches.hpp"
-#include "common\util\hasher.h"
+#include "common/util/hasher.h"
 #include "common/FilePaths.hpp"
 
 #include <Shlwapi.h>

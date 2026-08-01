@@ -34,7 +34,7 @@
 
 #include "InputDevice.h"
 #include "InputManager.h"
-#include "common\util\CxbxUtil.h"
+#include "common/util/CxbxUtil.h"
 #include <algorithm>
 #include <charconv>
 

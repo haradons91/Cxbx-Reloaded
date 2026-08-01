@@ -34,9 +34,9 @@
 #define LOG_PREFIX CXBXR_MODULE::JVS // TODO: XBAM
 
 
-#include <core\kernel\exports\xboxkrnl.h>
-#include "core\kernel\init\\CxbxKrnl.h"
-#include "core\kernel\exports\EmuKrnl.h" // for HalSystemInterrupts
+#include <core/kernel/exports/xboxkrnl.h>
+#include "core/kernel/init//CxbxKrnl.h"
+#include "core/kernel/exports/EmuKrnl.h" // for HalSystemInterrupts
 
 chihiro_bootid &MediaBoard::GetBootId()
 {

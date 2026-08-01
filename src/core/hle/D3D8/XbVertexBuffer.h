@@ -31,8 +31,8 @@
 
 #include "Cxbx.h"
 
-#include "core\hle\D3D8\XbVertexShader.h"
-#include "common\util\hasher.h" // For ComputeHash
+#include "core/hle/D3D8/XbVertexShader.h"
+#include "common/util/hasher.h" // For ComputeHash
 
 typedef struct _CxbxDrawContext
 {

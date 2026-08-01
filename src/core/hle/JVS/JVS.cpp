@@ -30,14 +30,14 @@
 #undef FIELD_OFFSET     // prevent macro redefinition warnings
 
 #include "EmuShared.h"
-#include "common\Logging.h"
-#include "common\FilePaths.hpp"
-#include "core\kernel\init\CxbxKrnl.h"
-#include "core\kernel\support\Emu.h"
-#include "core\hle\JVS\JVS.h"
-#include "core\hle\Intercept.hpp"
-#include "devices\chihiro\JvsIo.h"
-#include "devices\Xbox.h"
+#include "common/Logging.h"
+#include "common/FilePaths.hpp"
+#include "core/kernel/init/CxbxKrnl.h"
+#include "core/kernel/support/Emu.h"
+#include "core/hle/JVS/JVS.h"
+#include "core/hle/Intercept.hpp"
+#include "devices/chihiro/JvsIo.h"
+#include "devices/Xbox.h"
 #include <thread>
 #include <mutex>
 #include <vector>

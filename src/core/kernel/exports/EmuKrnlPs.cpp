@@ -27,29 +27,29 @@
 // ******************************************************************
 
 #define LOG_PREFIX CXBXR_MODULE::PS
-#include <common\util\CxbxUtil.h>
+#include <common/util/CxbxUtil.h>
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For PsCreateSystemThreadEx, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For PsCreateSystemThreadEx, etc.
 #include "EmuKrnlPs.hpp"
-#include "core\kernel\exports\EmuKrnlKi.h"
-#include "core\kernel\exports\EmuKrnlKe.h"
+#include "core/kernel/exports/EmuKrnlKi.h"
+#include "core/kernel/exports/EmuKrnlKe.h"
 #include <process.h> // For __beginthreadex(), etc.
 #include <float.h> // For _controlfp constants
 
 #include "Logging.h" // For LOG_FUNC()
 #include "EmuKrnlLogging.h"
-#include "core\kernel\init\CxbxKrnl.h" // For CxbxKrnl_TLS
+#include "core/kernel/init/CxbxKrnl.h" // For CxbxKrnl_TLS
 #include "EmuKrnl.h"
-#include "core\kernel\support\Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
-#include "core\kernel\support\EmuFS.h" // For EmuGenerateFS
-#include "core\kernel\support\NativeHandle.h"
+#include "core/kernel/support/Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
+#include "core/kernel/support/EmuFS.h" // For EmuGenerateFS
+#include "core/kernel/support/NativeHandle.h"
 #include "common/PerfTrace.h"  // For PerfTrace_RegisterXboxThread
 
 // prevent name collisions
 namespace NtDll
 {
-#include "core\kernel\support\EmuNtDll.h"
+#include "core/kernel/support/EmuNtDll.h"
 };
 
 #define PSP_MAX_CREATE_THREAD_NOTIFY 8
@@ -101,9 +101,15 @@ static unsigned int WINAPI PCSTProxy
 	delete iPCSTProxyParam;
 #ifndef ENABLE_KTHREAD_SWITCHING
 	unsigned Host2XbStackBaseReserved = 0;
+#ifdef _MSC_VER
 	__asm mov Host2XbStackBaseReserved, esp;
 	unsigned Host2XbStackSizeReserved = EmuGenerateStackSize(Host2XbStackBaseReserved, params.TlsDataSize);
 	__asm sub esp, Host2XbStackSizeReserved;
+#else
+	__asm__ __volatile__("mov %%esp, %0" : "=r"(Host2XbStackBaseReserved));
+	unsigned Host2XbStackSizeReserved = EmuGenerateStackSize(Host2XbStackBaseReserved, params.TlsDataSize);
+	__asm__ __volatile__("sub %0, %%esp" : : "r"(Host2XbStackSizeReserved) : "memory");
+#endif
 #endif
 
 	// Do minimal thread initialization
@@ -136,7 +142,11 @@ static unsigned int WINAPI PCSTProxy
 	xbox::PsTerminateSystemThread(X_STATUS_SUCCESS);
 
 #ifndef ENABLE_KTHREAD_SWITCHING
+#ifdef _MSC_VER
 	__asm add esp, Host2XbStackSizeReserved;
+#else
+	__asm__ __volatile__("add %0, %%esp" : : "r"(Host2XbStackSizeReserved) : "memory");
+#endif
 #endif
 
 	return 0; // will never be reached

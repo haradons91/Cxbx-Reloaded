@@ -27,7 +27,7 @@
 
 #include "Cxbx.h"
 
-#include "core\hle\D3D8\XbD3D8Types.h"
+#include "core/hle/D3D8/XbD3D8Types.h"
 
 /*---------------------------------------------------------------------------*/
 /*  Texture configuration - The following members of the D3DPixelShaderDef   */

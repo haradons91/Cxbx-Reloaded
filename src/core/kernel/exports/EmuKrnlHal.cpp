@@ -28,22 +28,22 @@
 
 #define LOG_PREFIX CXBXR_MODULE::HAL
 
-#include <core\kernel\exports\xboxkrnl.h> // For HalReadSMCTrayState, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For HalReadSMCTrayState, etc.
 #include <Shlwapi.h> // For PathRemoveFileSpec()
 #include "Logging.h" // For LOG_FUNC()
 #include "EmuKrnl.h" // For InitializeListHead(), etc.
 #include "EmuKrnlLogging.h"
-#include "core\kernel\init\CxbxKrnl.h" // For CxbxrAbort, and CxbxExec
-#include "core\kernel\support\Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
-#include "core\kernel\support\EmuFS.h"
+#include "core/kernel/init/CxbxKrnl.h" // For CxbxrAbort, and CxbxExec
+#include "core/kernel/support/Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
+#include "core/kernel/support/EmuFS.h"
 #include "EmuKrnl.h"
-#include "devices\x86\EmuX86.h" // HalReadWritePciSpace needs this
+#include "devices/x86/EmuX86.h" // HalReadWritePciSpace needs this
 #include "EmuShared.h"
-#include "core\kernel\support\EmuFile.h" // For FindNtSymbolicLinkObjectByDriveLetter
-#include "common\EmuEEPROM.h" // For EEPROM
-#include "devices\Xbox.h" // For g_SMBus, SMBUS_ADDRESS_SYSTEM_MICRO_CONTROLLER
-#include "devices\SMCDevice.h" // For SMC_COMMAND_SCRATCH
-#include "core\kernel\memory-manager\VMManager.h"
+#include "core/kernel/support/EmuFile.h" // For FindNtSymbolicLinkObjectByDriveLetter
+#include "common/EmuEEPROM.h" // For EEPROM
+#include "devices/Xbox.h" // For g_SMBus, SMBUS_ADDRESS_SYSTEM_MICRO_CONTROLLER
+#include "devices/SMCDevice.h" // For SMC_COMMAND_SCRATCH
+#include "core/kernel/memory-manager/VMManager.h"
 #include "common/FilePaths.hpp"
 
 #include <algorithm> // for std::replace

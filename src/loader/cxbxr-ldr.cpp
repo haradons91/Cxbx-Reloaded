@@ -29,9 +29,9 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #include <Windows.h> // For LPTSTR, FormatMessage, GetSystemInfo, etc
 
-#include "..\CxbxVersion.h"
-#include "..\Common\AddressRanges.h"
-#include "..\Common\ReserveAddressRanges.h"
+#include "../CxbxVersion.h"
+#include "../common/AddressRanges.h"
+#include "../common/ReserveAddressRanges.h"
 
 // Reserve the first 128 MB MemLowVirtual address range without inflating the EXE size,
 // by simply declaring an array, first thing, in global scope. It gets placed in the BSS segment,
@@ -139,7 +139,7 @@ void FreeLastErrorString(LPTSTR Error)
 
 #define EMULATION_DLL "cxbxr-emu.dll"
 
-DWORD CALLBACK rawMain()
+extern "C" DWORD CALLBACK rawMain()
 {
 	(void)virtual_memory_placeholder; // prevent optimization removing this data
 

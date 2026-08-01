@@ -28,16 +28,17 @@
 #define LOG_PREFIX CXBXR_MODULE::FS
 
 
-#include <core\kernel\exports\xboxkrnl.h>
-#include "core\kernel\exports\EmuKrnl.h" // For InitializeListHead(), etc.
-#include "core\kernel\exports\EmuKrnlKe.h"
-#include "core\kernel\exports\EmuKrnlKi.h"
-#include "core\kernel\support\EmuFS.h" // For fs_instruction_t
-#include "core\kernel\support\NativeHandle.h"
-#include "core\kernel\init\CxbxKrnl.h"
+#include <core/kernel/exports/xboxkrnl.h>
+#include "core/kernel/exports/EmuKrnl.h" // For InitializeListHead(), etc.
+#include "core/kernel/exports/EmuKrnlKe.h"
+#include "core/kernel/exports/EmuKrnlKi.h"
+#include "core/kernel/support/EmuFS.h" // For fs_instruction_t
+#include "core/kernel/support/NativeHandle.h"
+#include "core/kernel/init/CxbxKrnl.h"
 #include "Logging.h"
 
 #include <windows.h>
+#include <float.h>
 #include <cstdio>
 #include <vector>
 
@@ -123,11 +124,12 @@ NT_TIB *GetNtTib()
 	return (NT_TIB *)__readfsdword(TIB_LinearSelfAddress);
 }
 
-uint32_t fs_lock = 0;
+extern "C" uint32_t fs_lock = 0;
 
-__declspec(naked) void LockFS()
+extern "C" __declspec(naked) void LockFS()
 {
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		// Backup Registers
 		pushfd
 		pushad
@@ -147,11 +149,32 @@ __declspec(naked) void LockFS()
 		popfd
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"pushfd\n\t"
+		"pushad\n\t"
+		"jmp entry\n\t"
+		"spinlock :\n\t"
+		"call _SwitchToThread@0\n\t"
+		"entry:\n\t"
+		"mov eax, 1\n\t"
+		"xchg eax, _fs_lock\n\t"
+		"test eax, eax\n\t"
+		"jnz spinlock\n\t"
+		"popad\n\t"
+		"popfd\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
-__declspec(naked) void UnlockFS()
+extern "C" __declspec(naked) void UnlockFS()
 {
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		pushfd
 		pushad
 		xor eax, eax
@@ -160,6 +183,20 @@ __declspec(naked) void UnlockFS()
 		popfd
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"pushfd\n\t"
+		"pushad\n\t"
+		"xor eax, eax\n\t"
+		"xchg eax, _fs_lock\n\t"
+		"popad\n\t"
+		"popfd\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 void EmuKeSetPcr(xbox::KPCR *Pcr)
@@ -202,7 +239,7 @@ void EmuKeFreePcr()
 	__writefsdword(TIB_ArbitraryDataSlot, NULL);
 }
 
-__declspec(naked) void EmuFS_RefreshKPCR()
+extern "C" __declspec(naked) void EmuFS_RefreshKPCR()
 {
 	// Backup all registers, call EmuKeGetPcr and then restore all registers
 	// EmuKeGetPcr makes sure a valid KPCR exists for the current thread
@@ -210,7 +247,8 @@ __declspec(naked) void EmuFS_RefreshKPCR()
 	// to keep it safe to call in our patches
 	// This function can be later expanded to do nice things 
 	// like setup the per-thread KPCR values for us too!
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		pushfd
 		pushad
 		call EmuKeGetPcr
@@ -218,12 +256,26 @@ __declspec(naked) void EmuFS_RefreshKPCR()
 		popfd
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"pushfd\n\t"
+		"pushad\n\t"
+		"call _EmuKeGetPcr@0\n\t"
+		"popad\n\t"
+		"popfd\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_CmpEsiFs00()
 {
 	// Note : eax must be preserved here, hence the push/pop
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		push eax
@@ -232,189 +284,412 @@ __declspec(naked) void EmuFS_CmpEsiFs00()
 		pop eax
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"push eax\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"cmp esi, [eax]\n\t"
+		"pop eax\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEaxFs00()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov eax, fs : [TIB_ArbitraryDataSlot]
 		mov eax, [eax]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"mov eax, [eax]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEaxFs04()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov eax, fs : [TIB_ArbitraryDataSlot]
 		mov eax, [eax + 04h]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"mov eax, [eax + 0x04]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEaxFs20()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov eax, fs : [TIB_ArbitraryDataSlot]
 		mov eax, [eax + 20h]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"mov eax, [eax + 0x20]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEaxFs28()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov eax, fs : [TIB_ArbitraryDataSlot]
 		mov eax, [eax + 28h]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"mov eax, [eax + 0x28]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEaxFs58()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov eax, fs : [TIB_ArbitraryDataSlot]
 		mov eax, [eax + 58h]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"mov eax, [eax + 0x58]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEbxFs00()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov ebx, fs : [TIB_ArbitraryDataSlot]
 		mov ebx, [ebx]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov ebx, fs : [0x14]\n\t"
+		"mov ebx, [ebx]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEbxFs04()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov ebx, fs : [TIB_ArbitraryDataSlot]
 		mov ebx, [ebx + 04h]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov ebx, fs : [0x14]\n\t"
+		"mov ebx, [ebx + 0x04]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEcxFs00()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov ecx, fs : [TIB_ArbitraryDataSlot]
 		mov ecx, [ecx]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov ecx, fs : [0x14]\n\t"
+		"mov ecx, [ecx]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEcxFs04()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov ecx, fs : [TIB_ArbitraryDataSlot]
 		mov ecx, [ecx + 04h]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov ecx, fs : [0x14]\n\t"
+		"mov ecx, [ecx + 0x04]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEdiFs00()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov edi, fs : [TIB_ArbitraryDataSlot]
 		mov edi, [edi]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov edi, fs : [0x14]\n\t"
+		"mov edi, [edi]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEdiFs04()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov edi, fs : [TIB_ArbitraryDataSlot]
 		mov edi, [edi + 04h]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov edi, fs : [0x14]\n\t"
+		"mov edi, [edi + 0x04]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEdxFs00()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov edx, fs : [TIB_ArbitraryDataSlot]
 		mov edx, [edx]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov edx, fs : [0x14]\n\t"
+		"mov edx, [edx]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEdxFs04()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov edx, fs : [TIB_ArbitraryDataSlot]
 		mov edx, [edx + 04h]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov edx, fs : [0x14]\n\t"
+		"mov edx, [edx + 0x04]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEsiFs00()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov esi, fs : [TIB_ArbitraryDataSlot]
 		mov esi, [esi]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov esi, fs : [0x14]\n\t"
+		"mov esi, [esi]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovEsiFs04()
 {
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov esi, fs : [TIB_ArbitraryDataSlot]
 		mov esi, [esi + 04h]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov esi, fs : [0x14]\n\t"
+		"mov esi, [esi + 0x04]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovzxEaxBytePtrFs24()
 {
 	// Note : Inlined KeGetCurrentIrql()
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		mov eax, fs : [TIB_ArbitraryDataSlot]
 		movzx eax, byte ptr[eax + 24h]
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"movzx eax, byte ptr[eax + 0x24]\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovFs00Eax()
 {
 	// Note : ebx must be preserved here, hence the push/pop
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		push ebx
@@ -423,12 +698,27 @@ __declspec(naked) void EmuFS_MovFs00Eax()
 		pop ebx
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"push ebx\n\t"
+		"mov ebx, fs : [0x14]\n\t"
+		"mov [ebx], eax\n\t"
+		"pop ebx\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovFs00Ebx()
 {
 	// Note : eax must be preserved here, hence the push/pop
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		push eax
@@ -437,12 +727,27 @@ __declspec(naked) void EmuFS_MovFs00Ebx()
 		pop eax
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"push eax\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"mov [eax], ebx\n\t"
+		"pop eax\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovFs00Ecx()
 {
 	// Note : eax must be preserved here, hence the push/pop
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		push eax
@@ -451,12 +756,27 @@ __declspec(naked) void EmuFS_MovFs00Ecx()
 		pop eax
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"push eax\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"mov [eax], ecx\n\t"
+		"pop eax\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovFs00Edi()
 {
 	// Note : eax must be preserved here, hence the push/pop
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		push eax
@@ -465,12 +785,27 @@ __declspec(naked) void EmuFS_MovFs00Edi()
 		pop eax
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"push eax\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"mov [eax], edi\n\t"
+		"pop eax\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovFs00Edx()
 {
 	// Note : eax must be preserved here, hence the push/pop
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		push eax
@@ -479,12 +814,27 @@ __declspec(naked) void EmuFS_MovFs00Edx()
 		pop eax
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"push eax\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"mov [eax], edx\n\t"
+		"pop eax\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovFs00Esi()
 {
 	// Note : eax must be preserved here, hence the push/pop
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call EmuFS_RefreshKPCR
 		push eax
@@ -493,23 +843,55 @@ __declspec(naked) void EmuFS_MovFs00Esi()
 		pop eax
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"push eax\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"mov [eax], esi\n\t"
+		"pop eax\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_MovFs00Esp()
 {
 	// Note : eax must be preserved here, hence the push/pop
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		pushfd
 		call EmuFS_RefreshKPCR
 		push eax
 		mov eax, fs : [TIB_ArbitraryDataSlot]
 		mov [eax], esp
-		add [eax], 12 // account for esp changes from pushed registers and return address
+		add dword ptr [eax], 12 // account for esp changes from pushed registers and return address
 		pop eax
 		popfd
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+		".intel_syntax noprefix\n\t"
+		"{\n\t"
+		"pushfd\n\t"
+		"call _EmuFS_RefreshKPCR\n\t"
+		"push eax\n\t"
+		"mov eax, fs : [0x14]\n\t"
+		"mov [eax], esp\n\t"
+		"add dword ptr [eax], 12\n\t"
+		"pop eax\n\t"
+		"popfd\n\t"
+		"ret\n\t"
+		".att_syntax prefix\n\t"
+		::: "memory"
+	);
+#endif
 }
 
 __declspec(naked) void EmuFS_PushDwordPtrFs00()
@@ -517,7 +899,8 @@ __declspec(naked) void EmuFS_PushDwordPtrFs00()
 	static uint32_t returnAddr;
 	static uint32_t temp;
 
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call LockFS
 		call EmuFS_RefreshKPCR
@@ -530,6 +913,23 @@ __declspec(naked) void EmuFS_PushDwordPtrFs00()
 		call UnlockFS
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+			"call _LockFS\n\t"
+			"call _EmuFS_RefreshKPCR\n\t"
+			"popl %0\n\t"
+			"movl %%eax, %1\n\t"
+			"movl %%fs:0x14, %%eax\n\t"
+			"pushl (%%eax)\n\t"
+			"movl %1, %%eax\n\t"
+			"pushl %0\n\t"
+			"call _UnlockFS\n\t"
+			"ret\n\t"
+			: "=m"(returnAddr), "=m"(temp)
+			:
+			: "memory"
+		);
+#endif
 }
 
 __declspec(naked) void EmuFS_PopDwordPtrFs00()
@@ -537,7 +937,8 @@ __declspec(naked) void EmuFS_PopDwordPtrFs00()
 	static uint32_t returnAddr;
 	static uint32_t temp;
 
-	__asm
+	#ifdef _MSC_VER
+__asm
 	{
 		call LockFS
 		call EmuFS_RefreshKPCR
@@ -550,6 +951,23 @@ __declspec(naked) void EmuFS_PopDwordPtrFs00()
 		call UnlockFS
 		ret
 	}
+#else
+	__asm__ __volatile__ (
+			"call _LockFS\n\t"
+			"call _EmuFS_RefreshKPCR\n\t"
+			"popl %0\n\t"
+			"movl %%eax, %1\n\t"
+			"movl %%fs:0x14, %%eax\n\t"
+			"popl (%%eax)\n\t"
+			"movl %1, %%eax\n\t"
+			"pushl %0\n\t"
+			"call _UnlockFS\n\t"
+			"ret\n\t"
+			: "=m"(returnAddr), "=m"(temp)
+			:
+			: "memory"
+		);
+#endif
 }
 
 // initialize fs segment selector emulation

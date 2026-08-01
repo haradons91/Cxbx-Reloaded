@@ -35,7 +35,7 @@
 #define _XBOXKRNL_DEFEXTRN_
 #define LOG_PREFIX CXBXR_MODULE::INPSYS
 
-#include <core\kernel\exports\xboxkrnl.h> // For PKINTERRUPT, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For PKINTERRUPT, etc.
 #include "common/cxbxr.hpp"
 
 #include "SdlJoystick.h"
@@ -44,17 +44,17 @@
 #include "DInputKeyboardMouse.h"
 #include "LibusbDevice.h"
 #include "InputManager.h"
-#include "..\devices\usb\XidGamepad.h"
-#include "core\kernel\exports\EmuKrnl.h" // For EmuLog
+#include "../devices/usb/XidGamepad.h"
+#include "core/kernel/exports/EmuKrnl.h" // For EmuLog
 #include "EmuShared.h"
-#include "devices\usb\OHCI.h"
+#include "devices/usb/OHCI.h"
 #ifdef CXBXR_EMU
 #include "core/common/video/RenderBase.hpp"
 #endif
 #include <charconv>
 
 // hle input specific
-#include "core\hle\XAPI\Xapi.h"
+#include "core/hle/XAPI/Xapi.h"
 
 // Allocate enough memory for the max number of devices we can support simultaneously
 // 4 duke / S / sbc / arcade joystick / lightgun (mutually exclusive) + 8 memory units

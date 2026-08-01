@@ -32,10 +32,10 @@
 #include "input/DlgLightgunConfig.h"
 #include "DlgInputConfig.h"
 #include "resource/ResCxbx.h"
-#include "input\InputManager.h"
+#include "input/InputManager.h"
 #include "Logging.h"
 #include "Settings.hpp"
-#include "common\IPCHybrid.hpp"
+#include "common/IPCHybrid.hpp"
 #include "EmuShared.h"
 
 

@@ -26,7 +26,7 @@
 #define EMUFS_H
 
 #include <vector>
-#include "common\xbe\Xbe.h"
+#include "common/xbe/Xbe.h"
 #include <windows.h>
 
 // Get Xbox's TIB StackBase address from thread's StackBase.
@@ -46,7 +46,7 @@ void EmuGenerateFS(xbox::PETHREAD Ethread, unsigned XboxThreadStackBaseReserved 
 void EmuKeFreePcr();
 
 void EmuKeSetPcr(xbox::KPCR *Pcr);
-xbox::KPCR *_stdcall EmuKeGetPcr();
+extern "C" xbox::KPCR *_stdcall EmuKeGetPcr();
 
 typedef struct
 {

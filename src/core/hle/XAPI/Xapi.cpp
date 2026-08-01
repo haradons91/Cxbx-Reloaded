@@ -27,22 +27,22 @@
 
 #define LOG_PREFIX CXBXR_MODULE::XAPI
 
-#include <core\kernel\exports\xboxkrnl.h>
-#include "core\hle\XAPI\Xapi.h"
+#include <core/kernel/exports/xboxkrnl.h>
+#include "core/hle/XAPI/Xapi.h"
 #include "common/cxbxr.hpp"
 
-#include "common\input\SdlJoystick.h"
-#include "common\input\InputManager.h"
+#include "common/input/SdlJoystick.h"
+#include "common/input/InputManager.h"
 #include <Shlwapi.h>
-#include "common\input\LibusbDevice.h" // include this after Shlwapi.h or else it causes an error
+#include "common/input/LibusbDevice.h" // include this after Shlwapi.h or else it causes an error
 #include "Logging.h"
-#include "core\kernel\support\Emu.h"
-#include "core\kernel\exports\EmuKrnl.h" // For DefaultLaunchDataPage
-#include "core\kernel\exports\EmuKrnlKi.h"
-#include "core\kernel\support\EmuFile.h"
-#include "core\kernel\support\NativeHandle.h"
+#include "core/kernel/support/Emu.h"
+#include "core/kernel/exports/EmuKrnl.h" // For DefaultLaunchDataPage
+#include "core/kernel/exports/EmuKrnlKi.h"
+#include "core/kernel/support/EmuFile.h"
+#include "core/kernel/support/NativeHandle.h"
 #include "EmuShared.h"
-#include "core\hle\Intercept.hpp"
+#include "core/hle/Intercept.hpp"
 #include "Windef.h"
 #include <vector>
 #include <charconv>

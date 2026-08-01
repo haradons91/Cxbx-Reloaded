@@ -24,7 +24,7 @@
 // ******************************************************************
 #pragma once
 
-#include "core\kernel\exports\xboxkrnl.h"
+#include "core/kernel/exports/xboxkrnl.h"
 
 // NOTE: This file is intended to be used only with Cxbxkrnl.cpp file.
 // NOTE2: If need to include header, please do in Cxbxkrnl.cpp file.

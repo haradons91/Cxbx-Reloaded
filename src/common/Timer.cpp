@@ -25,7 +25,7 @@
 // *
 // ******************************************************************
 
-#include <core\kernel\exports\xboxkrnl.h>
+#include <core/kernel/exports/xboxkrnl.h>
 
 #include <windows.h>
 #include <chrono>
@@ -34,13 +34,13 @@
 #include <mutex>
 #include <array>
 #include "Timer.h"
-#include "common\util\CxbxUtil.h"
-#include "core\kernel\support\EmuFS.h"
-#include "core\kernel\exports\EmuKrnlPs.hpp"
-#include "core\kernel\exports\EmuKrnl.h"
-#include "devices\Xbox.h"
-#include "devices\usb\OHCI.h"
-#include "core\hle\DSOUND\DirectSound\DirectSoundGlobal.hpp"
+#include "common/util/CxbxUtil.h"
+#include "core/kernel/support/EmuFS.h"
+#include "core/kernel/exports/EmuKrnlPs.hpp"
+#include "core/kernel/exports/EmuKrnl.h"
+#include "devices/Xbox.h"
+#include "devices/usb/OHCI.h"
+#include "core/hle/DSOUND/DirectSound/DirectSoundGlobal.hpp"
 
 
 static std::atomic_uint64_t last_qpc; // last time when QPC was called

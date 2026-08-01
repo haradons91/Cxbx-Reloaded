@@ -25,7 +25,7 @@
 // *
 // ******************************************************************
 
-#include "common\xbe\XbePrinter.h"
+#include "common/xbe/XbePrinter.h"
 #include "CxbxVersion.h" // For CxbxVersionStr
 
 #include <locale> // For ctime

@@ -29,7 +29,7 @@
 
 #include "PoolManager.h"
 #include "Logging.h"
-#include "core\kernel\exports\EmuKrnl.h" // For InitializeListHead(), etc.
+#include "core/kernel/exports/EmuKrnl.h" // For InitializeListHead(), etc.
 #include <assert.h>
 
 

@@ -65,22 +65,22 @@ the said software).
 #define LOG_PREFIX CXBXR_MODULE::KE
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For KeBugCheck, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For KeBugCheck, etc.
 #include "Logging.h" // For LOG_FUNC()
 #include "EmuKrnlLogging.h"
 
 // prevent name collisions
 namespace NtDll
 {
-	#include "core\kernel\support\EmuNtDll.h" // For NtDelayExecution(), etc.
+	#include "core/kernel/support/EmuNtDll.h" // For NtDelayExecution(), etc.
 };
 
-#include "core\kernel\init\CxbxKrnl.h" // For CxbxrAbort
-#include "core\kernel\support\Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
+#include "core/kernel/init/CxbxKrnl.h" // For CxbxrAbort
+#include "core/kernel/support/Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
 #include "EmuKrnl.h" // For InitializeListHead(), etc.
 #include "EmuKrnlKe.h"
-#include "core\kernel\support\EmuFile.h" // For IsEmuHandle(), NtStatusToString()
-#include "core\kernel\support\NativeHandle.h"
+#include "core/kernel/support/EmuFile.h" // For IsEmuHandle(), NtStatusToString()
+#include "core/kernel/support/NativeHandle.h"
 #include "Timer.h"
 #include "Util.h"
 #include "common/PerfTrace.h" // For PERF_SCOPE(PERF_CAT_KE_*)
@@ -166,7 +166,7 @@ xbox::void_xt xbox::KeWaitForDpc()
 // * NOTE: This is a macro on the Xbox, however we implement it 
 // * as a function so it can suit our emulated KPCR structure
 // ******************************************************************
-xbox::KPCR* WINAPI EmuKeGetPcr()
+extern "C" xbox::KPCR* WINAPI EmuKeGetPcr()
 {
 	// See EmuKeSetPcr()
 	xbox::PKPCR Pcr = (xbox::PKPCR)__readfsdword(TIB_ArbitraryDataSlot);

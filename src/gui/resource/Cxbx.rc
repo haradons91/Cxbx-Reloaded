@@ -860,9 +860,9 @@ END
 // TXT
 //
 
-IDR_CONTRIBUTORS        TXT                     "..\\CONTRIBUTORS"
+IDR_CONTRIBUTORS        TXT                     "../../../CONTRIBUTORS"
 
-IDR_COPYING             TXT                     "..\\COPYING"
+IDR_COPYING             TXT                     "../../../COPYING"
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////

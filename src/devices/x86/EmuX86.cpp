@@ -37,13 +37,13 @@
 #include "distorm.h"
 #include "mnemonics.h"
 
-#include "core\kernel\init\CxbxKrnl.h"
-#include "core\kernel\support\Emu.h" // For EmuLog
-#include "devices\x86\EmuX86.h"
-#include "core\hle\Intercept.hpp" // for bLLE_GPU
+#include "core/kernel/init/CxbxKrnl.h"
+#include "core/kernel/support/Emu.h" // For EmuLog
+#include "devices/x86/EmuX86.h"
+#include "core/hle/Intercept.hpp" // for bLLE_GPU
 
 #include <assert.h>
-#include "devices\Xbox.h" // For g_PCIBus
+#include "devices/Xbox.h" // For g_PCIBus
 #include "common/PerfTrace.h" // For PERF_SCOPE(PERF_CAT_EMU_X86)
 #include <atomic>
 #include <map>
@@ -776,7 +776,8 @@ bool EmuX86_Opcode_ADD(LPEXCEPTION_POINTERS e, _DInst& info)
 
 	uint32_t result = 0;
 	uint32_t eflags = e->ContextRecord->EFlags;
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -785,6 +786,24 @@ bool EmuX86_Opcode_ADD(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\t"
+			"addl %2, %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(result), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"((uint32_t)(src))
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -815,7 +834,8 @@ bool EmuX86_Opcode_AND(LPEXCEPTION_POINTERS e, _DInst& info)
 
 	uint32_t result = 0;
 	uint32_t eflags = e->ContextRecord->EFlags;
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -824,6 +844,24 @@ bool EmuX86_Opcode_AND(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\t"
+			"andl %2, %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(result), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"((uint32_t)(src))
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -860,7 +898,8 @@ bool EmuX86_Opcode_CMP(LPEXCEPTION_POINTERS e, _DInst& info)
 	}
 
 	uint32_t eflags = e->ContextRecord->EFlags;
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -868,6 +907,24 @@ bool EmuX86_Opcode_CMP(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\t"
+			"cmpl %2, %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(dummy_res), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"((uint32_t)(src))
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -907,7 +964,8 @@ bool EmuX86_Opcode_CMPXCHG(LPEXCEPTION_POINTERS e, _DInst& info)
 
 	// Perform arithmatic operation for flag calculation
 	uint32_t eflags = e->ContextRecord->EFlags;
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, eaxVal
@@ -915,6 +973,24 @@ bool EmuX86_Opcode_CMPXCHG(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %2, %%eax\n\t"
+			"cmpl %1, %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(dummy_res), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"((uint32_t)(eaxVal))
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -979,7 +1055,8 @@ bool EmuX86_Opcode_DEC(LPEXCEPTION_POINTERS e, _DInst& info)
 
 	uint32_t result = 0;
 	uint32_t eflags = e->ContextRecord->EFlags;
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -988,6 +1065,24 @@ bool EmuX86_Opcode_DEC(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\t"
+			"decl %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(result), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"(0)
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -1027,7 +1122,8 @@ bool EmuX86_Opcode_INC(LPEXCEPTION_POINTERS e, _DInst& info)
 
 	uint32_t result = 0;
 	uint32_t eflags = e->ContextRecord->EFlags;
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -1036,6 +1132,24 @@ bool EmuX86_Opcode_INC(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\t"
+			"incl %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(result), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"(0)
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -1187,7 +1301,8 @@ bool EmuX86_Opcode_NOT(LPEXCEPTION_POINTERS e, _DInst& info)
 	uint32_t dest = EmuX86_Addr_Read(opAddr);
 	uint32_t result = 0;
 	uint32_t eflags = e->ContextRecord->EFlags;
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -1196,6 +1311,7 @@ bool EmuX86_Opcode_NOT(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -1227,7 +1343,8 @@ bool EmuX86_Opcode_OR(LPEXCEPTION_POINTERS e, _DInst& info)
 
 	uint32_t result = 0;
 	uint32_t eflags = e->ContextRecord->EFlags;
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -1236,6 +1353,24 @@ bool EmuX86_Opcode_OR(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\t"
+			"orl %2, %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(result), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"((uint32_t)(src))
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -1326,7 +1461,8 @@ bool EmuX86_Opcode_SAR(LPEXCEPTION_POINTERS e, _DInst& info)
 	uint32_t eflags = e->ContextRecord->EFlags;
 	uint8_t byteSrc = src;
 
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -1336,6 +1472,24 @@ bool EmuX86_Opcode_SAR(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\tmovl %2, %%ecx\n\t"
+			"sarl %%cl, %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(result), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"((uint32_t)(byteSrc))
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -1366,7 +1520,8 @@ bool EmuX86_Opcode_SBB(LPEXCEPTION_POINTERS e, _DInst& info)
 
 	uint32_t result = 0;
 	uint32_t eflags = e->ContextRecord->EFlags;
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -1375,6 +1530,24 @@ bool EmuX86_Opcode_SBB(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\t"
+			"sbbl %2, %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(result), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"((uint32_t)(src))
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -1412,7 +1585,8 @@ bool EmuX86_Opcode_SHL(LPEXCEPTION_POINTERS e, _DInst& info)
 	uint32_t eflags = e->ContextRecord->EFlags;
 	uint8_t byteSrc = src;
 
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -1422,6 +1596,24 @@ bool EmuX86_Opcode_SHL(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\tmovl %2, %%ecx\n\t"
+			"sall %%cl, %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(result), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"((uint32_t)(byteSrc))
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 
 	// Write back the flags
@@ -1452,7 +1644,8 @@ bool EmuX86_Opcode_SHR(LPEXCEPTION_POINTERS e, _DInst& info)
 	uint32_t eflags = e->ContextRecord->EFlags;
 	uint8_t byteSrc = src;
 
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -1462,6 +1655,24 @@ bool EmuX86_Opcode_SHR(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\tmovl %2, %%ecx\n\t"
+			"shrl %%cl, %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(result), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"((uint32_t)(byteSrc))
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 
 	// Write back the flags
@@ -1526,7 +1737,8 @@ bool EmuX86_Opcode_SUB(LPEXCEPTION_POINTERS e, _DInst& info)
 
 	uint32_t result = 0;
 	uint32_t eflags = e->ContextRecord->EFlags;
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -1535,6 +1747,24 @@ bool EmuX86_Opcode_SUB(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\t"
+			"subl %2, %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(result), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"((uint32_t)(src))
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -1559,7 +1789,8 @@ bool EmuX86_Opcode_TEST(LPEXCEPTION_POINTERS e, _DInst& info)
 
 	uint32_t result = 0;
 	uint32_t eflags = e->ContextRecord->EFlags;
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -1567,6 +1798,24 @@ bool EmuX86_Opcode_TEST(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\t"
+			"testl %2, %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(dummy_res), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"((uint32_t)(src))
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -1594,7 +1843,8 @@ bool EmuX86_Opcode_XOR(LPEXCEPTION_POINTERS e, _DInst& info)
 
 	uint32_t result = 0;
 	uint32_t eflags = e->ContextRecord->EFlags;
-	__asm {
+	#ifdef _MSC_VER
+__asm {
 		push eflags			// push context eflags on the stack
 		popfd				// pop context eflags into host eflags
 		mov eax, dest
@@ -1603,6 +1853,24 @@ bool EmuX86_Opcode_XOR(LPEXCEPTION_POINTERS e, _DInst& info)
 		pushfd				// push the updated host flags onto the stack
 		pop eflags			// pop the updated host flags back into our eflags register
 	}
+#else
+	{
+		uint32_t dummy_res = 0, flags = eflags;
+		__asm__ __volatile__ (
+			"pushl %3\n\t"
+			"popfl\n\t"
+			"movl %1, %%eax\n\t"
+			"orl %2, %%eax\n\t"
+			"movl %%eax, %0\n\t"
+			"pushfl\n\t"
+			"popl %3\n\t"
+			: "=r"(result), "+r"(flags)
+			: "r"((uint32_t)(dest)), "r"((uint32_t)(src))
+			: "eax", "ecx", "memory"
+		);
+		eflags = flags;
+	}
+#endif
 
 	// Write back the flags
 	e->ContextRecord->EFlags = eflags;
@@ -3129,11 +3397,23 @@ bool EmuX86_DecodeException(LPEXCEPTION_POINTERS e)
 				// LEAVE often precedes RET - end of a code block
 				return true;
 			case I_LFENCE: { // = 4287 : Serializes load operations.
-				__asm { lfence }; // emulate as-is (doesn't cause exceptions)
+				#ifdef _MSC_VER
+#ifdef _MSC_VER
+__asm { lfence }
+#endif;
+#else
+__asm__ __volatile__("lfence");
+#endif // emulate as-is (doesn't cause exceptions)
 				break;
 			}
 			case I_MFENCE: { // = 4313 : Serializes load and store operations.
-				__asm { mfence }; // emulate as-is (doesn't cause exceptions)
+				#ifdef _MSC_VER
+#ifdef _MSC_VER
+__asm { mfence }
+#endif;
+#else
+__asm__ __volatile__("mfence");
+#endif // emulate as-is (doesn't cause exceptions)
 				break;
 			}
 			case I_MOV:
@@ -3245,7 +3525,13 @@ bool EmuX86_DecodeException(LPEXCEPTION_POINTERS e)
 				goto opcode_error;
 			}
 			case I_SFENCE: { // = 4343 : Serializes store operations.
-				__asm { sfence }; // emulate as-is (doesn't cause exceptions)
+				#ifdef _MSC_VER
+#ifdef _MSC_VER
+__asm { sfence }
+#endif;
+#else
+__asm__ __volatile__("sfence");
+#endif // emulate as-is (doesn't cause exceptions)
 				break;
 			}
 			case I_SHL:

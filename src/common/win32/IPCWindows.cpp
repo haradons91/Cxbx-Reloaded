@@ -32,9 +32,9 @@
 #include "Cxbx.h"
 #include "gui/resource/ResCxbx.h"
 
-#include "common\IPCHybrid.hpp"
+#include "common/IPCHybrid.hpp"
 #include "EmuShared.h"
-#include "common\Settings.hpp"
+#include "common/Settings.hpp"
 #include "Logging.h"
 
 #ifdef CXBXR_EMU

@@ -29,7 +29,7 @@
 
 #include "InputWindow.h"
 #include "gui/resource/ResCxbx.h"
-#include "common\IPCHybrid.hpp"
+#include "common/IPCHybrid.hpp"
 #include "EmuShared.h"
 #include "Logging.h"
 #include <future>

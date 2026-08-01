@@ -25,7 +25,7 @@
 #pragma once
 
 #include "Cxbx.h"
-#include "core\hle\DSOUND\XbDSoundTypes.h"
+#include "core/hle/DSOUND/XbDSoundTypes.h"
 #include "common/audio/converter.hpp"
 
 namespace xbox {
@@ -62,16 +62,18 @@ static_assert(sizeof(CUnknownGenericManager) == 0x08);
 
 struct CUnknownTemplate {
     // construct vtable (or grab ptr to existing)
+#include <stdexcept>
+
     CUnknownTemplate();
 
     virtual ~CUnknownTemplate() {};                                                 // 0x00
-    virtual void XBOXAPI pUnknown_04() { throw std::exception("pUnknown_04"); };    // 0x04
-    virtual void XBOXAPI pUnknown_08() { throw std::exception("pUnknown_08"); };    // 0x08
-    virtual void XBOXAPI pUnknown_0C() { throw std::exception("pUnknown_0C"); };    // 0x0C
-    virtual void XBOXAPI pUnknown_10() { throw std::exception("pUnknown_10"); };    // 0x10
-    virtual void XBOXAPI pUnknown_14() { throw std::exception("pUnknown_14"); };    // 0x14
-    virtual void XBOXAPI pUnknown_18() { throw std::exception("pUnknown_18"); };    // 0x18
-    virtual void XBOXAPI pUnknown_1C() { throw std::exception("pUnknown_1C"); };    // 0x1C
+    virtual void XBOXAPI pUnknown_04() { throw std::runtime_error("pUnknown_04"); };    // 0x04
+    virtual void XBOXAPI pUnknown_08() { throw std::runtime_error("pUnknown_08"); };    // 0x08
+    virtual void XBOXAPI pUnknown_0C() { throw std::runtime_error("pUnknown_0C"); };    // 0x0C
+    virtual void XBOXAPI pUnknown_10() { throw std::runtime_error("pUnknown_10"); };    // 0x10
+    virtual void XBOXAPI pUnknown_14() { throw std::runtime_error("pUnknown_14"); };    // 0x14
+    virtual void XBOXAPI pUnknown_18() { throw std::runtime_error("pUnknown_18"); };    // 0x18
+    virtual void XBOXAPI pUnknown_1C() { throw std::runtime_error("pUnknown_1C"); };    // 0x1C
     // If need to add more VMT (Virtual Method Table), add them above here.
     uint32_t ref_count;                                     // 0x04
 };

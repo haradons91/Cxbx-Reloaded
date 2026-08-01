@@ -37,7 +37,7 @@
 #include <assert.h>
 #include <algorithm>
 #include <thread>
-#include "core\kernel\support\Emu.h"
+#include "core/kernel/support/Emu.h"
 #include "SdlJoystick.h"
 #include "XInputPad.h"
 #include "DInputKeyboardMouse.h"

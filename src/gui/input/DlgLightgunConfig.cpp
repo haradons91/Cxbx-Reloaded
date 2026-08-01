@@ -28,10 +28,10 @@
 #define LOG_PREFIX CXBXR_MODULE::GUI
 
 #include "Windows.h"
-#include "gui\resource\ResCxbx.h"
-#include "input\InputWindow.h"
-#include "gui\DlgInputConfig.h"
-#include "common\Logging.h"
+#include "gui/resource/ResCxbx.h"
+#include "input/InputWindow.h"
+#include "gui/DlgInputConfig.h"
+#include "common/Logging.h"
 
 
 static constexpr std::array<std::array<const char *, LIGHTGUN_NUM_BUTTONS>, 2> button_lightgun_default = { {

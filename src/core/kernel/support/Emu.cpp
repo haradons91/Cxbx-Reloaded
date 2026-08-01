@@ -28,14 +28,14 @@
 #define LOG_PREFIX CXBXR_MODULE::X86
 
 
-#include <core\kernel\exports\xboxkrnl.h>
-#include "core\kernel\init\CxbxKrnl.h"
+#include <core/kernel/exports/xboxkrnl.h>
+#include "core/kernel/init/CxbxKrnl.h"
 #include "core/kernel/support/PatchRdtsc.hpp"
 #include "Emu.h"
-#include "devices\x86\EmuX86.h"
+#include "devices/x86/EmuX86.h"
 #include "EmuShared.h"
 #include "common/cxbxr.hpp" // For CxbxrShutDown()
-#include "core\hle\Intercept.hpp"
+#include "core/hle/Intercept.hpp"
 #include "CxbxDebugger.h"
 
 #include <Dbghelp.h>

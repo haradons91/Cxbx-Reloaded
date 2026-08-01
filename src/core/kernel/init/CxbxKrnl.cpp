@@ -29,23 +29,23 @@
 #define LOG_PREFIX_INIT CXBXR_MODULE::INIT
 
 
-#include <core\kernel\exports\xboxkrnl.h>
-#include "common\xbdm\CxbxXbdm.h" // For Cxbx_LibXbdmThunkTable
+#include <core/kernel/exports/xboxkrnl.h>
+#include "common/xbdm/CxbxXbdm.h" // For Cxbx_LibXbdmThunkTable
 #include "core/kernel/support/PatchRdtsc.hpp"
-#include "devices\x86\EmuX86.h" // For EmuX86_Init
-#include "core\kernel\support\EmuFile.h"
-#include "core\kernel\support\EmuFS.h" // EmuInitFS
+#include "devices/x86/EmuX86.h" // For EmuX86_Init
+#include "core/kernel/support/EmuFile.h"
+#include "core/kernel/support/EmuFS.h" // EmuInitFS
 #include "EmuEEPROM.h" // For CxbxRestoreEEPROM, EEPROM
-#include "core\kernel\exports\EmuKrnl.h"
-#include "core\kernel\exports\EmuKrnlKi.h"
-#include "core\kernel\exports\EmuKrnlKe.h"
-#include "core\kernel\exports\EmuKrnlPs.hpp"
+#include "core/kernel/exports/EmuKrnl.h"
+#include "core/kernel/exports/EmuKrnlKi.h"
+#include "core/kernel/exports/EmuKrnlKe.h"
+#include "core/kernel/exports/EmuKrnlPs.hpp"
 #include "EmuShared.h"
-#include "core\hle\D3D8\Direct3D9\Direct3D9.h" // For CxbxInitWindow, EmuD3DInit
-#include "core\hle\DSOUND\DirectSound\DirectSound.hpp" // For CxbxInitAudio
-#include "core\hle\JVS\JVS.h" // For JVS_Init
-#include "core\hle\Intercept.hpp"
-#include "core\kernel\memory-manager\VMManager.h"
+#include "core/hle/D3D8/Direct3D9/Direct3D9.h" // For CxbxInitWindow, EmuD3DInit
+#include "core/hle/DSOUND/DirectSound/DirectSound.hpp" // For CxbxInitAudio
+#include "core/hle/JVS/JVS.h" // For JVS_Init
+#include "core/hle/Intercept.hpp"
+#include "core/kernel/memory-manager/VMManager.h"
 #include "CxbxDebugger.h"
 #include "common/util/cliConfig.hpp"
 #include "xxhash.h"
@@ -57,12 +57,12 @@
 #include <process.h>
 #include <sstream> // For std::ostringstream
 
-#include "devices\EEPROMDevice.h" // For g_EEPROM
-#include "devices\Xbox.h" // For InitXboxHardware()
-#include "devices\LED.h" // For LED::Sequence
-#include "common\crypto\EmuSha.h" // For the SHA1 functions
+#include "devices/EEPROMDevice.h" // For g_EEPROM
+#include "devices/Xbox.h" // For InitXboxHardware()
+#include "devices/LED.h" // For LED::Sequence
+#include "common/crypto/EmuSha.h" // For the SHA1 functions
 #include "common/Timer.h" // For Timer_Init
-#include "common\input\InputManager.h" // For the InputDeviceManager
+#include "common/input/InputManager.h" // For the InputDeviceManager
 #include "core/kernel/support/NativeHandle.h"
 #include "common/win32/Util.h" // for WinError2Str
 
@@ -134,7 +134,7 @@ void SetupPerTitleKeys()
 xbox::void_xt NTAPI CxbxLaunchXbe(xbox::PVOID Entry)
 {
 	EmuLogInit(LOG_LEVEL::DEBUG, "Calling XBE entry point...");
-	static_cast<void(*)()>(Entry)();
+	reinterpret_cast<void(*)()>(Entry)();
 	EmuLogInit(LOG_LEVEL::DEBUG, "XBE entry point returned");
 }
 
@@ -1065,9 +1065,15 @@ static void CxbxrKrnlInitHacks()
 	HardwareModel hardwareModel)
 {
 	unsigned Host2XbStackBaseReserved = 0;
+#ifdef _MSC_VER
 	__asm mov Host2XbStackBaseReserved, esp;
 	unsigned Host2XbStackSizeReserved = EmuGenerateStackSize(Host2XbStackBaseReserved, 0);
 	__asm sub esp, Host2XbStackSizeReserved;
+#else
+	__asm__ __volatile__("mov %%esp, %0" : "=r"(Host2XbStackBaseReserved));
+	unsigned Host2XbStackSizeReserved = EmuGenerateStackSize(Host2XbStackBaseReserved, 0);
+	__asm__ __volatile__("sub %0, %%esp" : : "r"(Host2XbStackSizeReserved) : "memory");
+#endif
     // Set windows timer period to 1ms
     // Windows will automatically restore this value back to original on program exit
     // But with this, we can replace some busy loops with sleeps.

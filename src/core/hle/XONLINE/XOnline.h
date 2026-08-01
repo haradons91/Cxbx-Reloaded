@@ -24,8 +24,8 @@
 // ******************************************************************
 #if 0 // XOnline.h isn't used, but below is still useful documentation.
 
-#include "core\kernel\support\Emu.h"
-#include "core\hle\XAPI\Xapi.h" // For EMUPATCH
+#include "core/kernel/support/Emu.h"
+#include "core/hle/XAPI/Xapi.h" // For EMUPATCH
 
 namespace xbox {
 

@@ -33,13 +33,13 @@
 #define LOG_PREFIX CXBXR_MODULE::NET
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For PKINTERRUPT, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For PKINTERRUPT, etc.
 #include <WinSock2.h> 
-#include "core\kernel\init\CxbxKrnl.h"
-#include "core\kernel\support\Emu.h"
-#include "core\kernel\exports\EmuKrnl.h"
+#include "core/kernel/init/CxbxKrnl.h"
+#include "core/kernel/support/Emu.h"
+#include "core/kernel/exports/EmuKrnl.h"
 #include "EmuShared.h"
-#include "devices\Xbox.h"
+#include "devices/Xbox.h"
 #include "NVNetDevice.h"
 #include <Iphlpapi.h>
 #include <pcap.h>

@@ -25,7 +25,7 @@
 // ******************************************************************
 #pragma once
 
-#include "devices\PCIDevice.h" // For PCIDevice
+#include "devices/PCIDevice.h" // For PCIDevice
 
 #include "nv2a_int.h" // For NV2AState
 

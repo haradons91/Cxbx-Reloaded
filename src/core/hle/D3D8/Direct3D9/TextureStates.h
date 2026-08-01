@@ -27,7 +27,7 @@
 
 #include <cstdint>
 #include <array>
-#include "core\hle\D3D8\XbD3D8Types.h"
+#include "core/hle/D3D8/XbD3D8Types.h"
 #include <optional>
 
 #define CXBX_D3DRS_UNSUPPORTED (xbox::X_D3DRS_LAST + 1)

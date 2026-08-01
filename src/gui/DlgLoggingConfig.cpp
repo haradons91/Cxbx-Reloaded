@@ -27,7 +27,7 @@
 #include "EmuShared.h"
 #include "DlgLoggingConfig.h"
 #include "resource/ResCxbx.h"
-#include "common\IPCHybrid.hpp"
+#include "common/IPCHybrid.hpp"
 
 
 // Sanity check: ensure that NUM_INTEGERS_LOG is large enough to hold all our logging modules

@@ -27,15 +27,15 @@
 #define LOG_PREFIX CXBXR_MODULE::EEPR
 #define LOG_PREFIX_INIT CXBXR_MODULE::INIT
 
-#include <core\kernel\exports\xboxkrnl.h> // For XC_VALUE_INDEX and XBOX_EEPROM
+#include <core/kernel/exports/xboxkrnl.h> // For XC_VALUE_INDEX and XBOX_EEPROM
 #include "cxbxr.hpp" // For CxbxrAbort
 #include <stdio.h> // For printf
 #include <shlobj.h> // For HANDLE, CreateFile, CreateFileMapping, MapViewOfFile
 #include <random>
 
 #include "EmuEEPROM.h" // For EEPROMInfo, EEPROMInfos
-#include "core\kernel\support\Emu.h" // For EmuWarning
-#include "..\..\src\devices\LED.h" // For SetLEDSequence
+#include "core/kernel/support/Emu.h" // For EmuWarning
+#include "../../src/devices/LED.h" // For SetLEDSequence
 
 xbox::XBOX_EEPROM *EEPROM = nullptr; // Set using CxbxRestoreEEPROM()
 

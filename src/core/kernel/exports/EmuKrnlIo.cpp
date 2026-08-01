@@ -29,14 +29,14 @@
 #define LOG_PREFIX CXBXR_MODULE::IO
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For IoCompletionObjectType, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For IoCompletionObjectType, etc.
 #include "EmuKrnlIo.hpp"
 #include "EmuKrnlNt.hpp"
 #include "Logging.h" // For LOG_FUNC()
 #include "EmuKrnlLogging.h"
-#include "core\kernel\init\CxbxKrnl.h" // For CxbxrAbort
-#include "core\kernel\support\Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
-#include "core\kernel\support\EmuFile.h" // For CxbxCreateSymbolicLink(), etc.
+#include "core/kernel/init/CxbxKrnl.h" // For CxbxrAbort
+#include "core/kernel/support/Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
+#include "core/kernel/support/EmuFile.h" // For CxbxCreateSymbolicLink(), etc.
 #include "core/kernel/support/NativeHandle.h" // For Xbox objects to native handle and back
 #include "CxbxDebugger.h"
 

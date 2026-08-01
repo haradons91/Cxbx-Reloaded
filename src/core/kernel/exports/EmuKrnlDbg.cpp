@@ -29,18 +29,18 @@
 #define LOG_PREFIX CXBXR_MODULE::DBG
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For DbgPrint, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For DbgPrint, etc.
 #include "Logging.h" // For LOG_FUNC()
 #include "EmuKrnlLogging.h"
 
 // prevent name collisions
 namespace NtDll
 {
-#include "core\kernel\support\EmuNtDll.h"
+#include "core/kernel/support/EmuNtDll.h"
 };
 
 
-#include "core\kernel\support\Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
+#include "core/kernel/support/Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
 
 // ******************************************************************
 // * 0x0005 - DbgBreakPoint()

@@ -27,17 +27,17 @@
 // ******************************************************************
 
 
-#include <core\kernel\exports\xboxkrnl.h>
-#include "common\xbe\Xbe.h"
-#include "common\util\CxbxUtil.h" // For RoundUp
+#include <core/kernel/exports/xboxkrnl.h>
+#include "common/xbe/Xbe.h"
+#include "common/util/CxbxUtil.h" // For RoundUp
 #include <filesystem> // filesystem related functions available on C++ 17
 #include <locale> // For ctime
 #include <array>
-#include "devices\LED.h" // For LED::Sequence
-#include "common\crypto\EmuSha.h" // For the SHA functions
-#include "common\crypto\EmuRsa.h" // For the RSA functions
-#include "core\hle\XAPI\Xapi.h" // For LDT_FROM_DASHBOARD
-#include "core\hle\D3D8\Direct3D9\Direct3D9.h" // For CxbxInitWindow
+#include "devices/LED.h" // For LED::Sequence
+#include "common/crypto/EmuSha.h" // For the SHA functions
+#include "common/crypto/EmuRsa.h" // For the RSA functions
+#include "core/hle/XAPI/Xapi.h" // For LDT_FROM_DASHBOARD
+#include "core/hle/D3D8/Direct3D9/Direct3D9.h" // For CxbxInitWindow
 #include "common/AddressRanges.h"
 #include "common/xbox/Types.hpp"
 

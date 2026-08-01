@@ -26,9 +26,9 @@
 #define XBCONVERT_H
 
 #include "common/cxbxr.hpp"
-#include "core\kernel\init\CxbxKrnl.h"
+#include "core/kernel/init/CxbxKrnl.h"
 
-#include "core\hle\D3D8\XbD3D8Types.h"
+#include "core/hle/D3D8/XbD3D8Types.h"
 
 #define VERTICES_PER_DOT 1
 #define VERTICES_PER_LINE 2

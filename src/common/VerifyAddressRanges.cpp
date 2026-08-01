@@ -27,7 +27,7 @@
 // ******************************************************************
 
 #include "AddressRanges.h"
-#include "core\kernel\init\CxbxKrnl.h" // For CXBX_BASE_ADDR
+#include "core/kernel/init/CxbxKrnl.h" // For CXBX_BASE_ADDR
 
 bool VerifyBaseAddr()
 {

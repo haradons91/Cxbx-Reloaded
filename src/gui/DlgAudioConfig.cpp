@@ -27,7 +27,7 @@
 
 #define LOG_PREFIX CXBXR_MODULE::GUI
 
-#include "common\Settings.hpp" // for g_Settings
+#include "common/Settings.hpp" // for g_Settings
 #include "common/Logging.h"
 
 #include "DlgAudioConfig.h"

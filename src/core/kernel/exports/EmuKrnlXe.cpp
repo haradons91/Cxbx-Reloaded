@@ -29,14 +29,14 @@
 #define LOG_PREFIX CXBXR_MODULE::XE
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For XeImageFileName, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For XeImageFileName, etc.
 #ifdef CXBXR_EMU
-#include "core\kernel\init\CxbxKrnl.h" // For CxbxKrnl_Xbe
+#include "core/kernel/init/CxbxKrnl.h" // For CxbxKrnl_Xbe
 #endif
 #include "Logging.h" // For LOG_FUNC()
 #include "EmuKrnlLogging.h"
 #ifdef CXBXR_EMU
-#include "core\kernel\memory-manager\VMManager.h"
+#include "core/kernel/memory-manager/VMManager.h"
 #endif
 // ******************************************************************
 // * 0x0146 - XeImageFileName

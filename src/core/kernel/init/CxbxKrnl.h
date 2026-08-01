@@ -27,9 +27,9 @@
 
 #include "Cxbx.h"
 #include "common/cxbxr.hpp"
-#include "common\AddressRanges.h"
+#include "common/AddressRanges.h"
 #include "common/ReserveAddressRanges.h"
-#include "common\xbe\Xbe.h"
+#include "common/xbe/Xbe.h"
 #include "Logging.h"
 #include <optional>
 

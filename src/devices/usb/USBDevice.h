@@ -28,7 +28,7 @@
 #ifndef USBDEVICE_H_
 #define USBDEVICE_H_
 
-#include "..\PCIDevice.h"
+#include "../PCIDevice.h"
 #include "UsbCommon.h"
 #include <vector>
 

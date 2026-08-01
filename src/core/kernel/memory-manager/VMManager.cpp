@@ -39,7 +39,7 @@
 #include "PoolManager.h"
 #include "Logging.h"
 #include "EmuShared.h"
-#include "core\kernel\exports\EmuKrnl.h" // For InitializeListHead(), etc.
+#include "core/kernel/exports/EmuKrnl.h" // For InitializeListHead(), etc.
 #include "common/util/cliConfig.hpp" // For GetSessionID
 #include <assert.h>
 

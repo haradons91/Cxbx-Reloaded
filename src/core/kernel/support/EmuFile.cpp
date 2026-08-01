@@ -96,7 +96,7 @@ io_mu_metadata::io_mu_metadata(const std::wstring_view root_path) : m_root_path(
 		m_buff[i] = new char[sizeof(FATX_SUPERBLOCK)];
 		assert(m_buff[i] != nullptr);
 		std::wstring path = m_root_path + static_cast<wchar_t>(L'F' + i) + L".bin";
-		std::fstream fs(path, std::ios_base::in | std::ios_base::out | std::ios_base::binary);
+		std::fstream fs(path.c_str(), std::ios_base::in | std::ios_base::out | std::ios_base::binary);
 		if (!fs.is_open()) {
 			CxbxrAbort("%s: could not open MU bin file at \"%ls\"!", __func__, path.c_str());
 		}
@@ -123,7 +123,7 @@ io_mu_metadata::~io_mu_metadata()
 	std::unique_lock<std::shared_mutex> lck(m_rw_lock);
 	for (unsigned i = 0; i < 8; ++i) {
 		std::wstring path = m_root_path + static_cast<wchar_t>(L'F' + i) + L".bin";
-		std::ofstream ofs(path, std::ios_base::out | std::ios_base::binary);
+		std::ofstream ofs(path.c_str(), std::ios_base::out | std::ios_base::binary);
 		if (!ofs.is_open()) {
 			EmuLog(LOG_LEVEL::ERROR2, "%s: could not open MU bin file at \"%ls\"!", __func__, path.c_str());
 			delete[] m_buff[i];
@@ -151,7 +151,7 @@ void io_mu_metadata::flush(const wchar_t lett)
 {
 	std::unique_lock<std::shared_mutex> lck(m_rw_lock);
 	std::wstring path = m_root_path + lett + L".bin";
-	std::ofstream ofs(path, std::ios_base::out | std::ios_base::binary);
+	std::ofstream ofs(path.c_str(), std::ios_base::out | std::ios_base::binary);
 	if (!ofs.is_open()) {
 		EmuLog(LOG_LEVEL::ERROR2, "%s: could not open MU bin file at \"%ls\"!", __func__, path.c_str());
 		return;

@@ -40,7 +40,9 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/projects/libtom")
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/projects/imgui")
 
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/projects/libusb")
+if(MSVC)
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/projects/dokany")
+endif()
 
 set(nv2a_vsh_cpu_UNIT_TEST OFF)
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/import/nv2a_vsh_cpu" EXCLUDE_FROM_ALL)

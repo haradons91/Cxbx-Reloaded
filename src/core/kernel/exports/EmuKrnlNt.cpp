@@ -29,7 +29,7 @@
 #define LOG_PREFIX CXBXR_MODULE::NT
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For NtAllocateVirtualMemory, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For NtAllocateVirtualMemory, etc.
 #include "EmuKrnlNt.hpp"
 #include "EmuKrnl.h"
 #include "Logging.h" // For LOG_FUNC()
@@ -38,18 +38,18 @@
 // prevent name collisions
 namespace NtDll
 {
-#include "core\kernel\support\EmuNtDll.h"
+#include "core/kernel/support/EmuNtDll.h"
 };
 
-#include "core\kernel\init\CxbxKrnl.h" // For CxbxrAbort
-#include "core\kernel\exports\EmuKrnlKe.h"
+#include "core/kernel/init/CxbxKrnl.h" // For CxbxrAbort
+#include "core/kernel/exports/EmuKrnlKe.h"
 #include "EmuKrnlKi.h"
-#include "core\kernel\support\Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
-#include "core\kernel\support\EmuFile.h" // For EmuNtSymbolicLinkObject, NtStatusToString(), etc.
+#include "core/kernel/support/Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
+#include "core/kernel/support/EmuFile.h" // For EmuNtSymbolicLinkObject, NtStatusToString(), etc.
 #include "core/kernel/support/NativeHandle.h" // For Xbox objects to native handle and back
-#include "core\kernel\memory-manager\VMManager.h" // For g_VMManager
-#include "core\kernel\support\NativeHandle.h"
-#include "devices\Xbox.h"
+#include "core/kernel/memory-manager/VMManager.h" // For g_VMManager
+#include "core/kernel/support/NativeHandle.h"
+#include "devices/Xbox.h"
 #include "CxbxDebugger.h"
 
 #pragma warning(disable:4005) // Ignore redefined status values

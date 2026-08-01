@@ -29,7 +29,7 @@
 #define POOL_MANAGER_H
 
 
-#include "core\kernel\memory-manager\VMManager.h"
+#include "core/kernel/memory-manager/VMManager.h"
 
 #define POOL_BLOCK_SHIFT 5
 #define POOL_LIST_HEADS (PAGE_SIZE / (1 << POOL_BLOCK_SHIFT)) // 0x80

@@ -22,8 +22,8 @@
 // ******************************************************************
 #pragma once
 
-#include <core\kernel\exports\xboxkrnl.h>
-#include "core\kernel\init\CxbxKrnl.h"
+#include <core/kernel/exports/xboxkrnl.h>
+#include "core/kernel/init/CxbxKrnl.h"
 
 #include <filesystem>
 

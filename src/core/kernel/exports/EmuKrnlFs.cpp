@@ -28,17 +28,17 @@
 
 #define LOG_PREFIX CXBXR_MODULE::FSC
 
-#include <core\kernel\exports\xboxkrnl.h> // For FscGetCacheSize, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For FscGetCacheSize, etc.
 #include "Logging.h" // For LOG_FUNC()
 #include "EmuKrnlLogging.h"
 
 // prevent name collisions
 namespace NtDll
 {
-#include "core\kernel\support\EmuNtDll.h"
+#include "core/kernel/support/EmuNtDll.h"
 };
 
-#include "core\kernel\support\Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
+#include "core/kernel/support/Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
 
 #define FSCACHE_MAXIMUM_NUMBER_OF_CACHE_PAGES 2048
 

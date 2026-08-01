@@ -13,7 +13,7 @@ set(CMAKE_SUPPRESS_REGENERATION true)
 include_directories(
  "${CXBXR_ROOT_DIR}/src"
  "${CXBXR_ROOT_DIR}/src/common"
- "${CXBXR_ROOT_DIR}/src/common/Win32"
+ "${CXBXR_ROOT_DIR}/src/common/win32"
  "${CXBXR_ROOT_DIR}/import/OpenXDK/include"
  "${CXBXR_ROOT_DIR}/import/DirectX9/include"
  "${CXBXR_ROOT_DIR}/import/distorm/include"
@@ -55,6 +55,24 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   /GF
   /arch:SSE2
  )
+endif()
+
+if(MINGW)
+ add_compile_definitions(
+  _CRT_SECURE_NO_WARNINGS
+  _WIN32_WINNT=0x0601
+  LTM_DESC
+  USE_LTM
+  LTC_NO_TEST
+  LTC_NO_CIPHERS
+  LTC_NO_HASHES
+  LTC_NO_MACS
+  LTC_NO_PRNGS
+  LTC_NO_MISC
+  LTC_NO_PROTOTYPES
+  XXH_INLINE_ALL
+ )
+ add_compile_options(-fms-extensions -fpermissive -w -msse4.1)
 endif()
 
 add_compile_definitions(
@@ -105,6 +123,9 @@ add_library(${PROJECT_NAME} SHARED ${RESOURCES}
  ${CXBXR_GIT_VERSION_H}
  "${CXBXR_ROOT_DIR}/src/emulator/cxbxr-emu.cpp"
  "${CXBXR_ROOT_DIR}/src/emulator/dllmain.cpp"
+ "${CXBXR_ROOT_DIR}/src/devices/chihiro/JvsIo.cpp"
+ "${CXBXR_ROOT_DIR}/src/devices/chihiro/MediaBoard.cpp"
+ "${CXBXR_ROOT_DIR}/src/common/win32/msvc_compat.cpp"
 )
 
 # Link and compile flags
@@ -143,7 +164,6 @@ endif()
 
 # Windows libraries
 set(WINS_LIB
- legacy_stdio_definitions
  d3d9
  d3dcompiler
  delayimp
@@ -151,7 +171,7 @@ set(WINS_LIB
  dxguid
  odbc32
  odbccp32
- Shlwapi
+ shlwapi
  dxerr9
  ws2_32
  dsound
@@ -160,9 +180,12 @@ set(WINS_LIB
  d3dx9
  dbghelp
  comctl32
- XINPUT9_1_0
- Iphlpapi
+ xinput9_1_0
+ iphlpapi
  wpcap
+ opengl32
+ ksguid
+ dwmapi
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -177,6 +200,11 @@ target_link_libraries(${PROJECT_NAME}
 
  ${WINS_LIB}
 )
+
+if(MINGW)
+ target_link_libraries(${PROJECT_NAME} PRIVATE "${CXBXR_ROOT_DIR}/import/distorm/lib/Win32/distorm.lib" "${CXBXR_ROOT_DIR}/import/glew-2.0.0/lib/Release/Win32/glew32.lib")
+ target_link_options(${PROJECT_NAME} PRIVATE -Wl,--allow-multiple-definition -Wl,--kill-at)
+endif()
 
 install(TARGETS ${PROJECT_NAME}
   RUNTIME DESTINATION bin

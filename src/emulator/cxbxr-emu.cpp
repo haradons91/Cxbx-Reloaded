@@ -34,7 +34,7 @@
 //#include "CxbxKrnl/Emu.h"
 #include "EmuShared.h"
 #include "common/PerfTrace.h"
-#include "core\kernel\init\CxbxKrnl.h" // For HandleFirstLaunch() and LaunchEmulation()
+#include "core/kernel/init/CxbxKrnl.h" // For HandleFirstLaunch() and LaunchEmulation()
 //#include <commctrl.h>
 #include "common/util/cliConverter.hpp"
 #include "common/util/cliConfig.hpp"
@@ -127,7 +127,7 @@ CommandLineToArgvA(
 	return argv;
 }
 
-DWORD WINAPI Emulate(unsigned int reserved_systems, blocks_reserved_t blocks_reserved)
+extern "C" __declspec(dllexport) DWORD WINAPI Emulate(unsigned int reserved_systems, blocks_reserved_t blocks_reserved)
 {
 	FUNC_EXPORTS
 

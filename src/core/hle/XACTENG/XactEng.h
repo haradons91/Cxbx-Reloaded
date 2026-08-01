@@ -25,8 +25,8 @@
 #ifndef EMUXACTENG_H
 #define EMUXACTENG_H
 
-#include "common\xbe\Xbe.h"
-#include "core\hle\XAPI\Xapi.h" // For EMUPATCH
+#include "common/xbe/Xbe.h"
+#include "core/hle/XAPI/Xapi.h" // For EMUPATCH
 
 #include <windows.h>
 

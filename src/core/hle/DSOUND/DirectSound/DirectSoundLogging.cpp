@@ -26,7 +26,7 @@
 #include "Logging.h"
 #include "DirectSoundLogging.hpp"
 #include <mmreg.h>
-#include "..\XbDSoundTypes.h"
+#include "../XbDSoundTypes.h"
 
 // For MiNGW
 #ifndef DSBCAPS_TRUEPLAYPOSITION

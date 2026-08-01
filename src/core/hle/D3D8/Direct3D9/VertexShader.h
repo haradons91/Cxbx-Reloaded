@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core\hle\D3D8\XbVertexShader.h"
+#include "core/hle/D3D8/XbVertexShader.h"
 #include "FixedFunctionVertexShaderState.hlsli"
 
 enum class ShaderType {

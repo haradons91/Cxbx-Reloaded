@@ -2,8 +2,8 @@
 
 #include "Shader.h" // EmuCompileShader
 #include "VertexShader.h" // EmuCompileVertexShader
-#include "core\kernel\init\CxbxKrnl.h" // implicit CxbxKrnl_Xbe used in LOG_TEST_CASE
-#include "core\kernel\support\Emu.h" // LOG_TEST_CASE (via Logging.h)
+#include "core/kernel/init/CxbxKrnl.h" // implicit CxbxKrnl_Xbe used in LOG_TEST_CASE
+#include "core/kernel/support/Emu.h" // LOG_TEST_CASE (via Logging.h)
 
 #include <sstream> // std::stringstream
 

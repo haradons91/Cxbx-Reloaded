@@ -25,59 +25,59 @@
 
 #pragma once
 
-#include "core\kernel\common\types.h"
+#include "core/kernel/common/types.h"
 
 // ******************************************************************
 // * Debug
 // ******************************************************************
-#include "core\kernel\common\dbg.h"
+#include "core/kernel/common/dbg.h"
 
 // ******************************************************************
 // * Executive
 // ******************************************************************
-#include "core\kernel\common\ex.h"
+#include "core/kernel/common/ex.h"
 
 // ******************************************************************
 // * Hardware Abstraction Layer
 // ******************************************************************
-#include "core\kernel\common\hal.h"
+#include "core/kernel/common/hal.h"
 
 // ******************************************************************
 // * I/O Manager
 // ******************************************************************
-#include "core\kernel\common\io.h"
+#include "core/kernel/common/io.h"
 
 // ******************************************************************
 // * Kernel
 // ******************************************************************
-#include "core\kernel\common\kernel.h"
+#include "core/kernel/common/kernel.h"
 
 // ******************************************************************
 // * Memory Manager
 // ******************************************************************
-#include "core\kernel\common\mm.h"
+#include "core/kernel/common/mm.h"
 
 // ******************************************************************
 // * NT
 // ******************************************************************
-#include "core\kernel\common\nt.h"
+#include "core/kernel/common/nt.h"
 
 // ******************************************************************
 // * Object Manager
 // ******************************************************************
-#include "core\kernel\common\ob.h"
+#include "core/kernel/common/ob.h"
 
 // ******************************************************************
 // * Process Structure
 // ******************************************************************
-#include "core\kernel\common\ps.h"
+#include "core/kernel/common/ps.h"
 
 // ******************************************************************
 // * Run-time Library
 // ******************************************************************
-#include "core\kernel\common\rtl.h"
+#include "core/kernel/common/rtl.h"
 
 // ******************************************************************
 // * XBox
 // ******************************************************************
-#include "core\kernel\common\xbox.h"
+#include "core/kernel/common/xbox.h"

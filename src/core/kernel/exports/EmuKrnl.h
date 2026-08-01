@@ -25,9 +25,9 @@
 #ifndef EMUKRNL_H
 #define EMUKRNL_H
 
-#include "core\kernel\init\CxbxKrnl.h"
-#include "core\kernel\support\Emu.h"
-#include "core\kernel\support\EmuFS.h"
+#include "core/kernel/init/CxbxKrnl.h"
+#include "core/kernel/support/Emu.h"
+#include "core/kernel/support/EmuFS.h"
 #include "EmuKrnlKi.h"
 #include <future>
 

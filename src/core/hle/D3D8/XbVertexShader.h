@@ -30,7 +30,7 @@
 #include <future>
 #include <array>
 
-#include "core\hle\D3D8\XbD3D8Types.h" // for X_VSH_MAX_ATTRIBUTES
+#include "core/hle/D3D8/XbD3D8Types.h" // for X_VSH_MAX_ATTRIBUTES
 
 // Host vertex shader counts
 #define VSH_VS11_MAX_INSTRUCTION_COUNT 128

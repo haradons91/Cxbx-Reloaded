@@ -27,8 +27,8 @@
 #define LOG_PREFIX CXBXR_MODULE::D3DST
 
 #include "TextureStates.h"
-#include "core\kernel\init\CxbxKrnl.h"
-#include "core\kernel\support\Emu.h"
+#include "core/kernel/init/CxbxKrnl.h"
+#include "core/kernel/support/Emu.h"
 #include "Logging.h"
 #include "EmuShared.h"
 #include "core/hle/Intercept.hpp"

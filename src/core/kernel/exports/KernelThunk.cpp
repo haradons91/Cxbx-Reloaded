@@ -26,9 +26,9 @@
 // ******************************************************************
 
 
-#include <core\kernel\exports\xboxkrnl.h>
+#include <core/kernel/exports/xboxkrnl.h>
 #include "Cxbx.h" // For CxbxKrnl_KernelThunkTable
-#include "core\kernel\init\CxbxKrnl.h" // For UINT
+#include "core/kernel/init/CxbxKrnl.h" // For UINT
 
 #define FUNC(f) f
 #define VARIABLE(v) v

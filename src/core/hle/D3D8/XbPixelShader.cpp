@@ -37,16 +37,16 @@
 
 #define LOG_PREFIX CXBXR_MODULE::PXSH
 
-#include "core\kernel\support\Emu.h"
-#include "core\hle\D3D8\Direct3D9\Direct3D9.h" // For g_pD3DDevice, g_pXbox_PixelShader
-#include "core\hle\D3D8\Direct3D9\Shader.h" // For g_ShaderSources
-#include "core\hle\D3D8\XbPixelShader.h"
-#include "core\hle\D3D8\Direct3D9\PixelShader.h" // EmuCompilePixelShader
-#include "core\hle\D3D8\XbD3D8Logging.h" // For D3DErrorString()
+#include "core/kernel/support/Emu.h"
+#include "core/hle/D3D8/Direct3D9/Direct3D9.h" // For g_pD3DDevice, g_pXbox_PixelShader
+#include "core/hle/D3D8/Direct3D9/Shader.h" // For g_ShaderSources
+#include "core/hle/D3D8/XbPixelShader.h"
+#include "core/hle/D3D8/Direct3D9/PixelShader.h" // EmuCompilePixelShader
+#include "core/hle/D3D8/XbD3D8Logging.h" // For D3DErrorString()
 
-#include "core\kernel\init\CxbxKrnl.h" // For CxbxrAbort()
-#include "util\hasher.h"
-#include "core\hle\D3D8\Direct3D9\FixedFunctionPixelShader.hlsli"
+#include "core/kernel/init/CxbxKrnl.h" // For CxbxrAbort()
+#include "util/hasher.h"
+#include "core/hle/D3D8/Direct3D9/FixedFunctionPixelShader.hlsli"
 #include "common/FilePaths.hpp" // For szFilePath_CxbxReloaded_Exe
 #include "common/PerfTrace.h"
 
@@ -58,8 +58,8 @@
 #include <sstream>
 #include <unordered_map>
 
-#include "Direct3D9\RenderStates.h" // For XboxRenderStateConverter
-#include "Direct3D9\TextureStates.h" // For XboxTextureStateConverter
+#include "Direct3D9/RenderStates.h" // For XboxRenderStateConverter
+#include "Direct3D9/TextureStates.h" // For XboxTextureStateConverter
 
 #include <wrl/client.h>
 

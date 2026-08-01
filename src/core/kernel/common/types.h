@@ -1348,6 +1348,9 @@ inline constexpr int IO_FORCE_ACCESS_CHECK = 0x001;
 inline constexpr int IO_OPEN_TARGET_DIRECTORY = 0x0004;
 inline constexpr int IO_NO_PARAMETER_CHECKING = 0x100;
 inline constexpr int IO_CHECK_CREATE_PARAMETERS = 0x200;
+#ifdef FILE_SHARE_VALID_FLAGS
+#undef FILE_SHARE_VALID_FLAGS
+#endif
 inline constexpr int FILE_SHARE_VALID_FLAGS = 0x7;
 
 /* FILE_OBJECT.Flags */
@@ -1941,6 +1944,7 @@ typedef struct _KSWITCHFRAME
 // ******************************************************************
 // * EXCEPTION_DISPOSITION
 // ******************************************************************
+#ifndef _WINNT_
 typedef enum _EXCEPTION_DISPOSITION
 {
 	ExceptionContinueExecution = 0,
@@ -1959,6 +1963,7 @@ typedef struct _EXCEPTION_REGISTRATION_RECORD
 	PEXCEPTION_DISPOSITION Handler;
 }
 EXCEPTION_REGISTRATION_RECORD, *PEXCEPTION_REGISTRATION_RECORD;
+#endif
 
 // ******************************************************************
 // * KTRAP_FRAME
@@ -2550,6 +2555,7 @@ INLINE static ulong_xt READ_REGISTER_ULONG(PULONG Address)
 // ******************************************************************
 static void_xt WRITE_REGISTER_UCHAR(PVOID Address, uchar_xt Value)
 {
+#ifdef _MSC_VER
     __asm
     {
         mov edx, Address
@@ -2557,6 +2563,10 @@ static void_xt WRITE_REGISTER_UCHAR(PVOID Address, uchar_xt Value)
         mov [edx], ah
         lock or Address, edx
     };
+#else
+    *(volatile uchar_xt*)Address = Value;
+    __asm__ __volatile__("" ::: "memory");
+#endif
 }
 
 // ******************************************************************
@@ -2570,6 +2580,7 @@ static void_xt WRITE_REGISTER_UCHAR(PVOID Address, uchar_xt Value)
 // ******************************************************************
 static void_xt WRITE_REGISTER_USHORT(PVOID Address, ushort_xt Value)
 {
+#ifdef _MSC_VER
     __asm
     {
         mov edx, Address
@@ -2577,6 +2588,10 @@ static void_xt WRITE_REGISTER_USHORT(PVOID Address, ushort_xt Value)
         mov [edx], ax
         lock or Address, edx
     };
+#else
+    *(volatile ushort_xt*)Address = Value;
+    __asm__ __volatile__("" ::: "memory");
+#endif
 }
 
 // ******************************************************************
@@ -2590,6 +2605,7 @@ static void_xt WRITE_REGISTER_USHORT(PVOID Address, ushort_xt Value)
 // ******************************************************************
 static void_xt WRITE_REGISTER_ULONG(PVOID Address, ulong_xt Value)
 {
+#ifdef _MSC_VER
     __asm
     {
         mov edx, Address
@@ -2597,6 +2613,10 @@ static void_xt WRITE_REGISTER_ULONG(PVOID Address, ulong_xt Value)
         mov [edx], eax
         lock or Address, edx
     };
+#else
+    *(volatile ulong_xt*)Address = Value;
+    __asm__ __volatile__("" ::: "memory");
+#endif
 }
 
 // ******************************************************************
@@ -2951,6 +2971,7 @@ typedef struct _IRP
 }
 IRP, *PIRP;
 
+#ifndef _WINIOCTL_
 typedef struct _PARTITION_INFORMATION {
 	LARGE_INTEGER StartingOffset;   // 0x00
 	LARGE_INTEGER PartitionLength;  // 0x08
@@ -2961,6 +2982,9 @@ typedef struct _PARTITION_INFORMATION {
 	boolean_xt RecognizedPartition; // 0x1A
 	boolean_xt RewritePartition;    // 0x1B
 } PARTITION_INFORMATION, *PPARTITION_INFORMATION;
+#else
+typedef ::PARTITION_INFORMATION PARTITION_INFORMATION, *PPARTITION_INFORMATION;
+#endif
 
 typedef struct _IDE_DISK_EXTENSION {
 	PDEVICE_OBJECT DeviceObject;

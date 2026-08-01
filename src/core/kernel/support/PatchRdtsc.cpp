@@ -30,7 +30,7 @@
 #include <string>
 #include <unordered_set>
 
-#include "core\kernel\init\CxbxKrnl.h"
+#include "core/kernel/init/CxbxKrnl.h"
 
 // unordered_set gives O(1) lookup vs the O(n) linear scan of the old vector.
 // IsRdtscInstruction is called on every privileged-instruction exception, so

@@ -26,9 +26,9 @@
 #ifndef EMUDSOUND_H
 #define EMUDSOUND_H
 
-#include "core\kernel\init\CxbxKrnl.h"
-#include "core\hle\DSOUND\XbDSoundTypes.h"
-#include "core\hle\DSOUND\common\XbInternalStruct.hpp"
+#include "core/kernel/init/CxbxKrnl.h"
+#include "core/hle/DSOUND/XbDSoundTypes.h"
+#include "core/hle/DSOUND/common/XbInternalStruct.hpp"
 
 typedef struct IDirectSound3DListener8* LPDIRECTSOUND3DLISTENER8;
 typedef struct IDirectSound3DBuffer8* LPDIRECTSOUND3DBUFFER8;

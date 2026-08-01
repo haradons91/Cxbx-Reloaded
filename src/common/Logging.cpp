@@ -28,7 +28,7 @@
 #include <windows.h> // for PULONG
 
 #include "Logging.h"
-#include "common\Settings.hpp"
+#include "common/Settings.hpp"
 #include "EmuShared.h"
 
 // For thread_local, see : https://en.cppreference.com/w/cpp/language/storage_duration
@@ -197,12 +197,12 @@ void EmuLogInit(LOG_LEVEL level, const char *szWarningMessage, ...)
 }
 
 // Set up the logging variables for the GUI process
-inline void log_get_settings()
+void log_get_settings()
 {
 	log_set_config(g_Settings->m_core.LogLevel, g_Settings->m_core.LoggedModules, g_Settings->m_core.bLogPopupTestCase);
 }
 
-inline void log_sync_config()
+void log_sync_config()
 {
 	int LogLevel;
 	unsigned int LoggedModules[NUM_INTEGERS_LOG];

@@ -31,10 +31,10 @@
 
 #include "common/cxbxr.hpp"
 #include "AddressRanges.h" // For VerifyWow64()
-#include "core\kernel\init\CxbxKrnl.h"
-#include "core\kernel\support\Emu.h"
+#include "core/kernel/init/CxbxKrnl.h"
+#include "core/kernel/support/Emu.h"
 #include "EmuShared.h"
-#include "common\Settings.hpp"
+#include "common/Settings.hpp"
 #include <commctrl.h>
 #include "common/util/cliConverter.hpp"
 #include "common/util/cliConfig.hpp"

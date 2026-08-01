@@ -30,7 +30,7 @@
 #include "CxbxVersion.h"
 #include "DlgAbout.h"
 #include "resource/ResCxbx.h"
-#include "common\util\CxbxUtil.h"
+#include "common/util/CxbxUtil.h"
 
 #include <commctrl.h>
 #include <string>

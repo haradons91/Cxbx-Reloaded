@@ -24,7 +24,7 @@
 // ******************************************************************
 #pragma once
 
-#include "devices\PCIDevice.h" // For PCIDevice
+#include "devices/PCIDevice.h" // For PCIDevice
 
 typedef enum {
 	MCPX_1_0,

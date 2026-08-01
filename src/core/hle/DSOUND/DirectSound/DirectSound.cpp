@@ -29,14 +29,14 @@
 #define LOG_PREFIX CXBXR_MODULE::DSOUND
 
 
-#include <core\kernel\exports\xboxkrnl.h>
+#include <core/kernel/exports/xboxkrnl.h>
 #include <dsound.h>
 #include "DirectSoundGlobal.hpp" // Global variables
 #include <common/Timer.h>
 
 #include "Logging.h"
 #include "DirectSoundLogging.hpp"
-#include "..\XbDSoundLogging.hpp"
+#include "../XbDSoundLogging.hpp"
 
 #include "DSStream_PacketManager.hpp"
 

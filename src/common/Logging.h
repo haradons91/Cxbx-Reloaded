@@ -31,7 +31,7 @@
 #include <iostream> // For std::cout
 #include <iomanip> // For std::setw
 #include <atomic> // For atomic_bool and atomic_uint
-#include "common\util\CxbxUtil.h" // For g_bPrintfOn and to_underlying
+#include "common/util/CxbxUtil.h" // For g_bPrintfOn and to_underlying
 
 // NOTE: using ERROR2 since windows.h imports an ERROR macro which would conflict otherwise
 typedef enum class _LOG_LEVEL {
@@ -127,9 +127,9 @@ void EmuLogInit(LOG_LEVEL level, const char *szWarningMessage, ...);
 
 #define EmuLog(level, fmt, ...) EmuLogEx(LOG_PREFIX, level, fmt, ##__VA_ARGS__)
 
-extern inline void log_get_settings();
+void log_get_settings();
 
-extern inline void log_sync_config();
+void log_sync_config();
 
 void log_set_config(int LogLevel, unsigned int* LoggedModules, bool LogPopupTestCase);
 

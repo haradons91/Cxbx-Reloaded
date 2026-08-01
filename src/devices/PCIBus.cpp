@@ -27,6 +27,7 @@
 
 #include "PCIBus.h"
 #include <cstdio>
+#include <cstring>
 
 void PCIBus::ConnectDevice(uint32_t deviceId, PCIDevice *pDevice)
 {

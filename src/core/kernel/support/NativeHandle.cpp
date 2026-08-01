@@ -25,21 +25,23 @@
 // *
 // ******************************************************************
 
-#include <core\kernel\exports\xboxkrnl.h>
+#include <core/kernel/exports/xboxkrnl.h>
 #include <chrono>
 #include <unordered_map>
 #include <shared_mutex>
+#include <mutex>
+#include <thread>
 #include "Windows.h"
 #include "assert.h"
 #include "NativeHandle.h"
-#include "core\kernel\init\CxbxKrnl.h"
+#include "core/kernel/init/CxbxKrnl.h"
 #include "core/kernel/support/EmuFS.h"
 #include "EmuFile.h"
 
 // prevent name collisions
 namespace NtDll
 {
-	#include "core\kernel\support\EmuNtDll.h"
+	#include "core/kernel/support/EmuNtDll.h"
 };
 
 std::shared_mutex g_MapMtx;

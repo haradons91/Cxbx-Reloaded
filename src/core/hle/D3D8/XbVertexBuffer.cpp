@@ -29,22 +29,23 @@
 
 #include <unordered_map>
 #include <array>
-#include "core\kernel\memory-manager\VMManager.h"
-#include "common\util\hasher.h"
-#include "core\kernel\support\Emu.h"
-#include "core\hle\D3D8\Direct3D9\Direct3D9.h" // For g_pD3DDevice
-#include "core\hle\D3D8\Direct3D9\WalkIndexBuffer.h" // for WalkIndexBuffer
-#include "core\hle\D3D8\ResourceTracker.h"
-#include "core\hle\D3D8\XbPushBuffer.h" // For CxbxDrawPrimitiveUP
-#include "core\hle\D3D8\XbVertexBuffer.h"
-#include "core\hle\D3D8\XbConvert.h"
-#include "common\PerfTrace.h"
+#include "core/kernel/memory-manager/VMManager.h"
+#include "common/util/hasher.h"
+#include "core/kernel/support/Emu.h"
+#include "core/hle/D3D8/Direct3D9/Direct3D9.h" // For g_pD3DDevice
+#include "core/hle/D3D8/Direct3D9/WalkIndexBuffer.h" // for WalkIndexBuffer
+#include "core/hle/D3D8/ResourceTracker.h"
+#include "core/hle/D3D8/XbPushBuffer.h" // For CxbxDrawPrimitiveUP
+#include "core/hle/D3D8/XbVertexBuffer.h"
+#include "core/hle/D3D8/XbConvert.h"
+#include "common/PerfTrace.h"
 
 #include <imgui.h>
 
 #include <ctime>
 #include <chrono>
 #include <algorithm>
+#include <utility>
 
 #define MAX_STREAM_NOT_USED_TIME (2 * CLOCKS_PER_SEC) // TODO: Trim the not used time
 

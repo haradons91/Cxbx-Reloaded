@@ -30,18 +30,18 @@
 #define CHECK_ALIGNMENT(size, alignment) (((size) % (alignment)) == 0) // For RtlFillMemoryUlong
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For RtlAnsiStringToUnicodeString, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For RtlAnsiStringToUnicodeString, etc.
 #include "Logging.h" // For LOG_FUNC()
 #include "EmuKrnlLogging.h"
 
 // prevent name collisions
 namespace NtDll
 {
-	#include "core\kernel\support\EmuNtDll.h"
+	#include "core/kernel/support/EmuNtDll.h"
 };
 
-#include "core\kernel\init\CxbxKrnl.h" // For CxbxrAbort()
-#include "core\kernel\support\Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
+#include "core/kernel/init/CxbxKrnl.h" // For CxbxrAbort()
+#include "core/kernel/support/Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
 #include <assert.h>
 
 #ifdef _WIN32
@@ -273,6 +273,7 @@ XBSYSAPI EXPORTNUM(265) xbox::void_xt NTAPI xbox::RtlCaptureContext
 )
 {
 	// NOTE: this function expects the caller to be __cdecl, or else it fails
+#ifdef _MSC_VER
 	__asm {
 		push ebx
 		mov ebx, [esp + 8]           // ebx = ContextRecord;
@@ -299,6 +300,12 @@ XBSYSAPI EXPORTNUM(265) xbox::void_xt NTAPI xbox::RtlCaptureContext
 		pop ebx
 		ret 4
 	}
+#else
+	if (ContextRecord) {
+		ContextRecord->ContextFlags = CONTEXT_FULL;
+		RtlCaptureContext(ContextRecord);
+	}
+#endif
 }
 
 // ******************************************************************
@@ -1568,9 +1575,9 @@ no_mapping:
 #define SECS_1601_TO_1980  ((379 * 365 + 91) * (ULONGLONG)SECSPERDAY)
 #define TICKS_1601_TO_1980 (SECS_1601_TO_1980 * TICKSPERSEC)
 
-const xbox::LARGE_INTEGER Magic10000 = { .QuadPart = 0xd1b71758e219652ci64 };
+const xbox::LARGE_INTEGER Magic10000 = { .QuadPart = 0xd1b71758e219652cULL };
 #define SHIFT10000 13
-xbox::LARGE_INTEGER Magic86400000 = { .QuadPart = 0xc6d750ebfa67b90ei64 };
+xbox::LARGE_INTEGER Magic86400000 = { .QuadPart = 0xc6d750ebfa67b90eULL };
 #define SHIFT86400000 26
 
 
@@ -2226,8 +2233,11 @@ XBSYSAPI EXPORTNUM(319) xbox::ulong_xt NTAPI xbox::RtlWalkFrameChain
 
 	ulong_xt i = 0;
 
+#ifdef _MSC_VER
 	/* Use a SEH block for maximum protection */
-	__try {
+	__try
+#endif
+	{
 		/* Loop the frames */
 		boolean_xt StopSearch = FALSE;
 		for (i = 0; i < Count; i++) {
@@ -2279,10 +2289,12 @@ XBSYSAPI EXPORTNUM(319) xbox::ulong_xt NTAPI xbox::RtlWalkFrameChain
 			Stack = NewStack;
 		}
 	}
+#ifdef _MSC_VER
 	__except (EXCEPTION_EXECUTE_HANDLER) {
 		/* No index */
 		i = 0;
 	}
+#endif
 
 #ifndef ENABLE_KTHREAD_SWITCHING
 	// HACK: This is necessary to exclude our own PCSTProxy startup function.

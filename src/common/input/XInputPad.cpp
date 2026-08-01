@@ -35,7 +35,7 @@
 #define LOG_PREFIX CXBXR_MODULE::XINP
 
 #include "XInputPad.h"
-#include "core\kernel\support\Emu.h"
+#include "core/kernel/support/Emu.h"
 #include "InputManager.h"
 
 #ifndef XINPUT_GAMEPAD_GUIDE

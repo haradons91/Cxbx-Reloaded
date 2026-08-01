@@ -27,7 +27,7 @@
 #ifndef EMU_EEPROM_H
 #define EMU_EEPROM_H
 
-#include <core\kernel\exports\xboxkrnl.h> // For XC_VALUE_INDEX and XBOX_EEPROM
+#include <core/kernel/exports/xboxkrnl.h> // For XC_VALUE_INDEX and XBOX_EEPROM
 
 #define EEPROM_SIZE sizeof(xbox::XBOX_EEPROM)
 

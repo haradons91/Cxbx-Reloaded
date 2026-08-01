@@ -181,7 +181,7 @@ XINPUT_RUMBLE, *PXINPUT_RUMBLE;
 // ******************************************************************
 // * XINPUT_CAPABILITIES
 // ******************************************************************
-#include "AlignPrefix1.h"
+#include "common/win32/AlignPrefix1.h"
 typedef struct _XINPUT_CAPABILITIES
 {
     xbox::byte_xt SubType;
@@ -198,9 +198,8 @@ typedef struct _XINPUT_CAPABILITIES
         XINPUT_RUMBLE Rumble;
     }
     Out;
-}
-#include "AlignPosfix1.h"
-XINPUT_CAPABILITIES, *PXINPUT_CAPABILITIES;
+} XINPUT_CAPABILITIES, *PXINPUT_CAPABILITIES;
+#include "common/win32/AlignPosfix1.h"
 
 // ******************************************************************
 // * Device XBOX Input Device Types 

@@ -28,10 +28,10 @@
 #define LOG_PREFIX CXBXR_MODULE::XBOX
 
 #include "Xbox.h" // For HardwareModel
-#include "common\xbe\Xbe.h"  // Without this HLEIntercept complains about some undefined xbe variables
-#include "core\kernel\common\xbox.h"
+#include "common/xbe/Xbe.h"  // Without this HLEIntercept complains about some undefined xbe variables
+#include "core/kernel/common/xbox.h"
 #include "cxbxr.hpp"
-#include "core\hle\Intercept.hpp"
+#include "core/hle/Intercept.hpp"
 #include "EmuShared.h"
 
 PCIBus* g_PCIBus;

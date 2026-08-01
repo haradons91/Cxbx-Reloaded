@@ -26,11 +26,12 @@
 #ifndef XBE_H
 #define XBE_H
 
-#include "common\Error.h"
+#include "common/Error.h"
 #include "common/xbox/Types.hpp"
 #include "core/kernel/common/types.h"
 
 #include <cstdio>
+#include <cstring>
 
 
 //#include <windef.h> // For MAX_PATH
@@ -92,7 +93,7 @@ class Xbe : public Error
         uint32_t GetPatchVersion();
 
         // Xbe header
-        #include "AlignPrefix1.h"
+        #include "common/win32/AlignPrefix1.h"
         struct Header
         {
             uint32_t dwMagic;                         // 0x0000 - magic number [should be "XBEH"]
@@ -143,16 +144,16 @@ class Xbe : public Error
             uint32_t dwXAPILibraryVersionAddr;        // 0x016C - xapi library version address
             uint32_t dwLogoBitmapAddr;                // 0x0170 - logo bitmap address
             uint32_t dwSizeofLogoBitmap;              // 0x0174 - logo bitmap size
-        }
-        #include "AlignPosfix1.h"
-        m_Header;
+        };
+        #include "common/win32/AlignPosfix1.h"
+        Header m_Header;
 
         // Xbe header extra byte (used to preserve unknown data)
         char *m_HeaderEx;
         uint32_t m_ExSize;
 
         // Xbe certificate
-        #include "AlignPrefix1.h"
+        #include "common/win32/AlignPrefix1.h"
         struct Certificate
         {
             uint32_t  dwSize;                               // 0x0000 - size of certificate
@@ -173,12 +174,12 @@ class Xbe : public Error
             uint32_t  dwOnlineService;                      // 0x01D4 - Online Service ID
             uint32_t  dwSecurityFlags;                      // 0x01D8 - Extra Security Flags
             uint8_t  bzCodeEncKey[16];                      // 0x01DC - Code Encryption Key?
-        }
-        #include "AlignPosfix1.h"
-        m_Certificate;
+        };
+        #include "common/win32/AlignPosfix1.h"
+        Certificate m_Certificate;
 
         // Xbe section header
-        #include "AlignPrefix1.h"
+        #include "common/win32/AlignPrefix1.h"
         struct SectionHeader
         {
             typedef struct 
@@ -210,12 +211,12 @@ class Xbe : public Error
             uint32_t dwHeadSharedRefCountAddr;    // head shared page reference count address
             uint32_t dwTailSharedRefCountAddr;    // tail shared page reference count address
             uint8_t  bzSectionDigest[20];         // section digest
-        }
-        #include "AlignPosfix1.h"
-        *m_SectionHeader;
+        };
+        #include "common/win32/AlignPosfix1.h"
+        SectionHeader *m_SectionHeader;
 
         // Xbe library versions
-        #include "AlignPrefix1.h"
+        #include "common/win32/AlignPrefix1.h"
         struct LibraryVersion
         {
             char   szName[8];                     // library name
@@ -234,12 +235,12 @@ class Xbe : public Error
 				Flags wFlags;
                 uint16_t wFlags_value;
 			};
-        }
-        #include "AlignPosfix1.h"
-		*m_LibraryVersion;
+        };
+        #include "common/win32/AlignPosfix1.h"
+		LibraryVersion *m_LibraryVersion;
 
         // Xbe thread local storage
-        #include "AlignPrefix1.h"
+        #include "common/win32/AlignPrefix1.h"
         struct TLS
         {
             uint32_t dwDataStartAddr;             // raw start address
@@ -248,9 +249,9 @@ class Xbe : public Error
             uint32_t dwTLSCallbackAddr;           // tls callback address
             uint32_t dwSizeofZeroFill;            // size of zero fill
             uint32_t dwCharacteristics;           // characteristics
-        }
-        #include "AlignPosfix1.h"
-        *m_TLS;
+        };
+        #include "common/win32/AlignPosfix1.h"
+        TLS *m_TLS;
 
 		// Xbe signature header
 		uint8_t* m_SignatureHeader;
@@ -311,7 +312,7 @@ class Xbe : public Error
 
 	public:
 		// used to decode game logo bitmap data
-		#include "AlignPrefix1.h"
+		#include "common/win32/AlignPrefix1.h"
 		struct X_D3DResourceLoc
 		{
             uint32_t Common;
@@ -319,11 +320,11 @@ class Xbe : public Error
             uint32_t Lock;
             uint32_t Format;
             uint32_t Size;
-		}
-		#include "AlignPosfix1.h"
+		};
+		#include "common/win32/AlignPosfix1.h"
 		;
 
-		#include "AlignPrefix1.h"
+		#include "common/win32/AlignPrefix1.h"
 		// XPR structures
 
 		// Purpose:
@@ -337,11 +338,11 @@ class Xbe : public Error
             uint32_t dwXprMagic; // 'XPR0' or 'XPR1'
             uint32_t dwXprTotalSize;
             uint32_t dwXprHeaderSize;
-		}
-		#include "AlignPosfix1.h"
-		*m_xprHeader;
+		};
+		#include "common/win32/AlignPosfix1.h"
+		XprHeader *m_xprHeader;
 
-		#include "AlignPrefix1.h"
+		#include "common/win32/AlignPrefix1.h"
 		// Layout of SaveImage.xbx saved game image file
 		//
 		// File is XPR0 format. Since the XPR will always contain only a single
@@ -351,20 +352,20 @@ class Xbe : public Error
 			XprHeader xprHeader; // Standard XPR struct
 			X_D3DResourceLoc d3dTexture; // Standard D3D texture struct
             uint32_t dwEndOfHeader; // $FFFFFFFF
-		}
-		#include "AlignPosfix1.h"
-		*m_xprImageHeader;
+		};
+		#include "common/win32/AlignPosfix1.h"
+		XprImageHeader *m_xprImageHeader;
 
 
-		#include "AlignPrefix1.h"
+		#include "common/win32/AlignPrefix1.h"
 		struct XprImage
 		{
 			XprImageHeader xprImageHeader;
 			char strPad[XPR_IMAGE_HDR_SIZE - sizeof(XprImageHeader)];
 			unsigned char pBits;
-		}
-		#include "AlignPosfix1.h"
-		*m_xprImage;
+		};
+		#include "common/win32/AlignPosfix1.h"
+		XprImage *m_xprImage;
 };
 
 template<bool want_pxbe_ret>

@@ -29,20 +29,20 @@
 #define LOG_PREFIX CXBXR_MODULE::EX
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For ExAllocatePool, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For ExAllocatePool, etc.
 #include "Logging.h" // For LOG_FUNC()
 #include "EmuEEPROM.h" // For EmuFindEEPROMInfo, EEPROM, XboxFactoryGameRegion
 #include "EmuKrnlLogging.h"
-#include "core\kernel\memory-manager\PoolManager.h"
+#include "core/kernel/memory-manager/PoolManager.h"
 
 // prevent name collisions
 namespace NtDll
 {
-	#include "core\kernel\support\EmuNtDll.h" // For NtDelayExecution(), etc.
+	#include "core/kernel/support/EmuNtDll.h" // For NtDelayExecution(), etc.
 };
 
-#include "core\kernel\init\CxbxKrnl.h" // For CxbxrAbort
-#include "core\kernel\support\Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
+#include "core/kernel/init/CxbxKrnl.h" // For CxbxrAbort
+#include "core/kernel/support/Emu.h" // For EmuLog(LOG_LEVEL::WARNING, )
 #include "EmuKrnl.h" // For InsertHeadList, InsertTailList, RemoveHeadList
 
 #include <atomic> // for std::atomic

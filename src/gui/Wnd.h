@@ -25,7 +25,7 @@
 #ifndef WND_H
 #define WND_H
 
-#include "common\Error.h"
+#include "common/Error.h"
 
 #include <windows.h>
 

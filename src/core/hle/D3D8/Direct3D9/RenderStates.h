@@ -28,10 +28,10 @@
 #include <cstdint>
 #include <array>
 #include "EmuShared.h"
-#include "core\kernel\init\CxbxKrnl.h"
-#include "core\kernel\support\Emu.h"
-#include "core\hle\Intercept.hpp"
-#include "core\hle\D3D8\XbD3D8Types.h"
+#include "core/kernel/init/CxbxKrnl.h"
+#include "core/kernel/support/Emu.h"
+#include "core/hle/Intercept.hpp"
+#include "core/hle/D3D8/XbD3D8Types.h"
 
 class XboxRenderStateConverter
 {

@@ -25,7 +25,7 @@
 #ifndef EMU_H
 #define EMU_H
 
-#include "common\xbe\Xbe.h"
+#include "common/xbe/Xbe.h"
 #include "Logging.h"
 
 #include <windows.h>

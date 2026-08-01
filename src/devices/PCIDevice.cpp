@@ -26,6 +26,7 @@
 // ******************************************************************
 
 #include "PCIDevice.h"
+#include <cstdio>
 
 bool PCIDevice::GetIOBar(uint32_t port, PCIBar* bar)
 {

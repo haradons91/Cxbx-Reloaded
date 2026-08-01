@@ -24,7 +24,7 @@
 // *  All rights reserved
 // *
 // ******************************************************************
-#include "core\hle\D3D8\ResourceTracker.h"
+#include "core/hle/D3D8/ResourceTracker.h"
 
 //
 // all of our resource trackers

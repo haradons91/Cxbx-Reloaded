@@ -58,12 +58,12 @@
 #define LOG_PREFIX CXBXR_MODULE::USB
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For PKINTERRUPT, etc.
+#include <core/kernel/exports/xboxkrnl.h> // For PKINTERRUPT, etc.
 #include <cstring>
 #include "USBDevice.h"
 #include "OHCI.h"
-#include "core\kernel\exports\EmuKrnl.h"  // For EmuLog
-#include "common\util\CxbxUtil.h"
+#include "core/kernel/exports/EmuKrnl.h"  // For EmuLog
+#include "common/util/CxbxUtil.h"
 #include "Logging.h"
 
 #define SETUP_STATE_IDLE    0

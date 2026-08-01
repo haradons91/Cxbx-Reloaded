@@ -28,7 +28,7 @@
 #define LOG_PREFIX CXBXR_MODULE::ADM
 
 #include "ADM1032Device.h"
-#include "core\kernel\support\Emu.h" // For EmuLog
+#include "core/kernel/support/Emu.h" // For EmuLog
 
 void ADM1032Device::Init()
 {

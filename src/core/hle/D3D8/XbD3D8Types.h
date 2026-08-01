@@ -1126,7 +1126,7 @@ X_VertexShaderSlot;
 // ******************************************************************
 typedef struct _X_VERTEXATTRIBUTEFORMAT
 {
-	// Note : Alignment looks okay even without #pragma pack(1) / #include "AlignPrefix1.h" (and it's closure)
+	// Note : Alignment looks okay even without #pragma pack(1) / #include "common/win32/AlignPrefix1.h" (and it's closure)
     X_VERTEXSHADERINPUT Slots[X_VSH_MAX_ATTRIBUTES];
 }
 X_VERTEXATTRIBUTEFORMAT;

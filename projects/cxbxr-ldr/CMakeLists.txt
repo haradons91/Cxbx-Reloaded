@@ -64,9 +64,14 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
  )
 endif()
 
-target_link_libraries(${PROJECT_NAME}
- PUBLIC kernel32.lib
-)
+if(MINGW)
+ set_target_properties(${PROJECT_NAME} PROPERTIES
+  LINK_FLAGS "-Wl,-e,_rawMain@0 -Wl,--large-address-aware -Wl,--image-base,0x10000 -nostdlib"
+ )
+ target_link_libraries(${PROJECT_NAME} PUBLIC msvcrt kernel32)
+else()
+ target_link_libraries(${PROJECT_NAME} PUBLIC kernel32.lib)
+endif()
 
 install(TARGETS ${PROJECT_NAME}
   RUNTIME DESTINATION bin

@@ -81,8 +81,8 @@ the said software).
 #define LOG_PREFIX CXBXR_MODULE::KI
 
 
-#include <core\kernel\exports\xboxkrnl.h> // For KeBugCheck, etc.
-#include "core\kernel\support\EmuFS.h"
+#include <core/kernel/exports/xboxkrnl.h> // For KeBugCheck, etc.
+#include "core/kernel/support/EmuFS.h"
 #include "Logging.h" // For LOG_FUNC()
 #include "EmuKrnl.h" // for the list support functions
 #include "EmuKrnlKi.h"

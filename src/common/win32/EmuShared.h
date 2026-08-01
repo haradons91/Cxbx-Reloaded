@@ -26,10 +26,10 @@
 #define EMUSHARED_H
 
 #include "Cxbx.h"
-#include "common\Settings.hpp"
+#include "common/Settings.hpp"
 #include "Mutex.h"
-#include "common\IPCHybrid.hpp"
-#include "common\input\Button.h"
+#include "common/IPCHybrid.hpp"
+#include "common/input/Button.h"
 #include "common/xbox_types.h"
 #include "CxbxVersion.h"
 #include "core/common/imgui/settings.h"

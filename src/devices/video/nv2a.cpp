@@ -49,14 +49,14 @@
 #include <distorm.h> // For uint32_t
 #include <process.h> // For __beginthreadex(), etc.
 
-#include "core\kernel\init\CxbxKrnl.h" // For XBOX_MEMORY_SIZE, DWORD, etc
-#include "core\kernel\support\Emu.h"
-#include "core\kernel\support\NativeHandle.h"
-#include "core\kernel\exports\EmuKrnl.h"
+#include "core/kernel/init/CxbxKrnl.h" // For XBOX_MEMORY_SIZE, DWORD, etc
+#include "core/kernel/support/Emu.h"
+#include "core/kernel/support/NativeHandle.h"
+#include "core/kernel/exports/EmuKrnl.h"
 #include <backends/imgui_impl_win32.h>
 #include <backends/imgui_impl_opengl3.h>
 #include "core/common/video/RenderBase.hpp"
-#include "core\hle\Intercept.hpp"
+#include "core/hle/Intercept.hpp"
 #include "common/win32/Threads.h"
 #include "Logging.h"
 #include "Timer.h"
@@ -64,11 +64,11 @@
 #include "vga.h"
 #include "nv2a.h" // For NV2AState
 #include "nv2a_int.h" // from https://github.com/espes/xqemu/tree/xbox/hw/xbox
-//#include <gl\glew.h>
-#include <gl\GL.h>
-#include <gl\GLU.h>
+//#include <gl/glew.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include <cassert>
-//#include <gl\glut.h>
+//#include <gl/glut.h>
 
 // glib types
 typedef char gchar;
@@ -90,7 +90,7 @@ struct _GError
 	gchar       *message;
 };
 
-#include "common\util\gloffscreen\glextensions.h" // for glextensions_init
+#include "common/util/gloffscreen/glextensions.h" // for glextensions_init
 
 GLuint create_gl_shader(GLenum gl_shader_type,
 	const char *code,
