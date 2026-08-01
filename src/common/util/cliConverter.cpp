@@ -39,22 +39,13 @@ std::string cliMapPairsToString(std::unordered_map<std::string, std::string>& ma
 {
     std::string to_string;
 
-    unordered_map_strings::iterator i = map_pairs_out.begin();
-
-    // If map pairs are empty, return empty string.
-    // Or "exec" is not in first iterator by requirement, then return empty string.
-    if (i == map_pairs_out.end() || i->first.compare(cli_config::exec)) {
-        return to_string;
+    auto exec_it = map_pairs_out.find(cli_config::exec);
+    if (exec_it != map_pairs_out.end() && !exec_it->second.empty()) {
+        to_string += str_quote + exec_it->second + str_quote_space;
     }
 
-    to_string += str_quote + i->second + str_quote_space;
-
-    i++;
-
-    for (i; i != map_pairs_out.end();) {
-        // If argument 1 was input, ignore it since key is reserved from user first input.
-        if (!i->first.compare(cli_config::arg1)) {
-            i++;
+    for (auto i = map_pairs_out.begin(); i != map_pairs_out.end(); ++i) {
+        if (!i->first.compare(cli_config::exec) || !i->first.compare(cli_config::arg1)) {
             continue;
         }
         // If argument has space inside, return as empty.
